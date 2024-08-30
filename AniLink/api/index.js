@@ -24,6 +24,8 @@ async function main() {
 //       create: { bio: "I like turtles" },
 //     },
 //   },
+
+
 // });
 
 // const allUsers = await prisma.user.findMany({

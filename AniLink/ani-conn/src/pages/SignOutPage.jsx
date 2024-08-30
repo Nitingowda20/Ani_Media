@@ -1,8 +1,23 @@
 import { Button, Label, TextInput } from "flowbite-react";
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function SignOutPage() {
+
+  const [formData , setFormData]=useState({})
+
+  const handleChange= (e)=>{
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+  }
+  // console.log(formData)
+
+  const handleSubmit =async(e)=>{
+    e.preventDefault();
+  }
+
   return (
     <div className="min-h-screen mt-20">
       <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-8">
@@ -14,28 +29,27 @@ export default function SignOutPage() {
             </span>
             Blog
           </Link>
-          <p className="text-sm mt-5">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non
-            architecto temporibus, assumenda aperiam magnam id laudantium saepe
-            placeat laboriosam, tempore quia voluptatibus eius alias sed,
-            deleniti unde vel pariatur exercitationem!
+          <p className="text-xl mt-5">
+            Join our anime community to stay updated on the latest reviews,
+            discussions, and insights. Sign up now to start your journey into
+            the world of anime.
           </p>
         </div>
 
         {/* for Right */}
         <div className="flex-1">
-          <form className="flex flex-col gap-5">
+          <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
             <div>
               <Label value="Your UserName" />
-              <TextInput type="text" placeholder="Username" id="username" />
+              <TextInput type="text" placeholder="Username" id="username" onChange={handleChange}/>
             </div>
             <div>
               <Label value="Your Email" />
-              <TextInput type="text" placeholder="Email" id="email" />
+              <TextInput type="email" placeholder="Email" id="email" onChange={handleChange} />
             </div>
             <div>
               <Label value="Your Password" />
-              <TextInput type="text" placeholder="Password" id="Ppass" />
+              <TextInput type="password" placeholder="Password" id="password"  onChange={handleChange} />
             </div>
             <Button gradientDuoTone="purpleToBlue" type="submit" outline>
               Sign-Up

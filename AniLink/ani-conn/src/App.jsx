@@ -7,12 +7,14 @@ import SignInPage from './pages/SignInPage'
 import SignOutPage from './pages/SignOutPage'
 import AboutPage from './pages/AboutPage'
 import HeaderSec from './components/HeaderSec'
+import FooterSec from './components/FooterSec'
 
 
 export default function App() {
   return (
     <BrowserRouter>
       <HeaderSec />
+      
       <Routes>
         <Route path='/' element={<Home />}></Route>
         <Route path='/sign-in' element={<SignInPage />}></Route>
@@ -21,6 +23,8 @@ export default function App() {
         {/* <Route path='/dashboard' element={<Dashboard />}></Route> */}
         <Route path='/project' element={<Projects />}></Route>
       </Routes>
+
+      <FooterSec />
     </BrowserRouter>
   )
 }
