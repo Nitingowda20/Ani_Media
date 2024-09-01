@@ -1,48 +1,27 @@
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
+import userRoutes from './routes/userRoute.js';
+import authRoutes from "./routes/authRoute.js";
+
 
 const app =express();
-
-app.listen(3000 ,()=>{
-    console.log('Server is running on port 3000!!!!!!!')
-})
+const port = process.env.PORT || 1234;
 
 const prisma = new PrismaClient();
 
-async function main() {
-  // ... you will write your Prisma Client queries here
-  const allUsers = await prisma.user.findMany();
-//   console.log(allUsers);
-// await prisma.user.create({
-//   data: {
-//     name: "hecky",
-//     email: "hector@prisma.io",
-//     posts: {
-//       create: { title: "Hello World" },
-//     },
-//     profile: {
-//       create: { bio: "I like turtles" },
-//     },
-//   },
+app.use(express.json());
 
+app.use("/api/user", userRoutes);
+app.use("/api/auth", authRoutes);
 
-// });
+//   // try {
+//   //   const users = await prisma.user.findMany();
+//   //   res.json(users);
+//   // } catch (error) {
+//   //   res.status(500).json({ error: "An error occurred while fetching users." });
+//   // }
+//   res.json("HEeeeeeeeeeeeee")
 
-// const allUsers = await prisma.user.findMany({
-//   include: {
-//     // posts: true,
-//     profile: true,
-//   },
-// });
-console.dir(allUsers, { depth: null });
-  
-}
-main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+app.listen(port ,() => {
+  console.log(`Server is running on port ${port}!!!!!!!`);
+});
