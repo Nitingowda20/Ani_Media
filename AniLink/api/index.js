@@ -4,7 +4,7 @@ import userRoutes from "./routes/userRoute.js";
 import authRoutes from "./routes/authRoute.js";
 
 const app = express();
-const port = process.env.PORT || 1234;
+const port = process.env.PORT || 4000;
 
 const prisma = new PrismaClient();
 
