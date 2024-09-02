@@ -1,9 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+import { errorHandler } from "../utils/error.js";
 
 const prisma = new PrismaClient(); 
 
-export const signup = async (req, res) => {
+export const signup = async (req, res , next) => {
   const { username, email, password } = req.body;
 
   if (
@@ -14,7 +15,7 @@ export const signup = async (req, res) => {
     email === "" ||
     password === ""
   ) {
-    return res.status(400).json({ message: "All fields are required" });
+    next(errorHandler(400 , "All feilds are required"))
   }
 
   try {
@@ -24,7 +25,7 @@ export const signup = async (req, res) => {
     });
 
     if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+      next(errorHandler(400, "User already exist"));
     }
 
     // Hash the password
@@ -45,11 +46,6 @@ export const signup = async (req, res) => {
       .json({ message: "User created successfully", user: newUser });
   } 
   catch (error) {
-    return res
-      .status(500)
-      .json({
-        message: "An error occurred while creating the user",
-        error: error.message,
-      });
+    next(errorHandler(400, "An error occurred while creating the user"));
   }
 };
