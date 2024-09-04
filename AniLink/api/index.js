@@ -16,6 +16,7 @@ app.use("/api/auth", authRoutes);
 app.listen(port, () => {
   console.log(`Server is running on port ${port}!!!!!!!`);
 });
+// console.log("PRisma c")
 
 // Error-handling middleware
 app.use((err, req, res, next) => {
