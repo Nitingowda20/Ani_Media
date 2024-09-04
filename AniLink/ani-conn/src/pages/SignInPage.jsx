@@ -7,12 +7,13 @@ import {
   signInFailure,
 } from "../redux/user/userSlice";
 import { useDispatch , useSelector } from "react-redux";
+import OAuth from "../components/OAuth";
 
 export default function SignInPage() {
   
   const [formData, setFormData] = useState({});
   // const [errorMessage, setErrorMessage] = useState(null);
-  // const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false); 
   const {loading , error:errorMessage} = useSelector(state => state.user)
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -113,10 +114,11 @@ export default function SignInPage() {
                 "Sign in"
               )}
             </Button>
+            <OAuth />
           </form>
           <div className="">
             <span>Don't have an account?</span>
-            <Link to={"/sign-in"} className="text-blue-500">
+            <Link to={"/sign-out"} className="text-blue-500">
               Sign up
             </Link>
           </div>
