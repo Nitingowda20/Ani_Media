@@ -80,8 +80,9 @@ export default function HeaderSec() {
                 {currentUser.email}
               </span>
             </Dropdown.Header>
+            {/* <Link to={"/dashboard"}> */}
             <Link to={"/"}>
-              <Dropdown.Item>Profile</Dropdown.Item>
+              <Dropdown.Item >Profile</Dropdown.Item>
               <DropdownDivider />
               <Dropdown.Item>Sign Out</Dropdown.Item>
             </Link>

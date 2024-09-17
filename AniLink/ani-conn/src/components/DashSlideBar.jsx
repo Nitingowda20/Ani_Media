@@ -19,9 +19,9 @@ export default function DashSlideBar() {
     <Sidebar className="w-full md:w-56">
       <Sidebar.Items>
         <Sidebar.ItemGroup>
-          {/* <Link to={'/Dashboard?tab=profile'}> */}
+          <Link to={'/Dashboard?tab=profile'}>
           <Sidebar.Item
-            href={"/Dashboard?tab=profile"}
+            as='div'
             active={tab === "profile"}
             icon={HiUser}
             label={"user"}
@@ -29,7 +29,7 @@ export default function DashSlideBar() {
           >
             Profile
           </Sidebar.Item>
-          {/* </Link> */}
+          </Link>
           <Sidebar.Item className="cursor-pointer" icon={HiArrowSmRight}>
             Signout
           </Sidebar.Item>
