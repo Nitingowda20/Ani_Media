@@ -87,7 +87,8 @@ export default function DashProfile() {
   const handleSubmit = async (e) => {
     e.preventDefault();  
     setUpdateUserSuccess(null)
-    setUpdateUserError(null)  
+    setUpdateUserError(null) 
+      
     
     if (!currentUser || !currentUser.id) {
       console.log("User ID is undefined or currentUser is not set.");
