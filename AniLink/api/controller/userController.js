@@ -5,9 +5,8 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const user = (req, res) => {
-  res.json("hELLO WORLD");
+  res.json("HELLO WORLD");
 };
-
 
 export const updateUser = async (req, res, next) => {
   const userIdFromParams = parseInt(req.params.userId, 10); // Convert ID to integer
@@ -24,7 +23,7 @@ export const updateUser = async (req, res, next) => {
     if (req.body.password.length < 6) {
       return next(errorHandler(400, "Password must be at least 6 characters"));
     }
-    dataToUpdate.password = await bcrypt.hash(req.body.password, 10);
+    dataToUpdate.password = bcrypt.hashSync(req.body.password, 10);
   }
 
   // Validate and update username
@@ -70,5 +69,6 @@ export const updateUser = async (req, res, next) => {
     console.error("Error updating user:", error);
     next(error);
   }
+  
 };
 
