@@ -4,10 +4,12 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+//testing
 export const user = (req, res) => {
   res.json("HELLO WORLD");
 };
 
+//Update user
 export const updateUser = async (req, res, next) => {
   const userIdFromParams = parseInt(req.params.userId, 10); // Convert ID to integer
   const userIdFromToken = parseInt(req.user.id, 10); // Ensure user.id is an integer
@@ -72,3 +74,24 @@ export const updateUser = async (req, res, next) => {
   
 };
 
+//Delete the user
+export const deleteUser = async (req, res, next) => {
+  // Convert both ids to integers for comparison
+    const userIdFromParams = parseInt(req.params.userId, 10); // Convert ID to integer
+    const userIdFromToken = parseInt(req.user.id, 10); // Ensure user.id is an integer
+
+    if (userIdFromParams !== userIdFromToken) {
+      return next(errorHandler(403, "You are not allowed to update this user"));
+    }
+
+  try {
+    await prisma.user.delete({
+      where: {
+        id: userIdFromParams,
+      },
+    });
+    res.status(200).json("User has been deleted");
+  } catch (error) {
+    next(error); // Pass the error to the error-handling middleware
+  }
+};
