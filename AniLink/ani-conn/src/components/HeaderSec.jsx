@@ -81,11 +81,11 @@ export default function HeaderSec() {
               </span>
             </Dropdown.Header>
             {/* <Link to={"/dashboard"}> */}
-            <Link to={"/"}>
+            <Link to={"/Dashboard?tab=profile"}>
               <Dropdown.Item >Profile</Dropdown.Item>
+            </Link>
               <DropdownDivider />
               <Dropdown.Item>Sign Out</Dropdown.Item>
-            </Link>
           </Dropdown>
         ) : (
           <Link to={"/sign-in"}>
