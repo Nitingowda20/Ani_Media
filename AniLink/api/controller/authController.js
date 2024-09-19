@@ -76,7 +76,7 @@ export const signin = async (req, res, next) => {
     }
 
     // Generate a JWT token
-    const token = jwt.sign({ id: validUser.id }, process.env.JWT_SECRET);
+    const token = jwt.sign({ id: validUser.id , isAdmin: validUser.isAdmin}, process.env.JWT_SECRET);
 
     // Destructure and exclude the password field from the response
     const { password: pass, ...userWithoutPassword } = validUser;
@@ -92,8 +92,8 @@ export const signin = async (req, res, next) => {
   }
 };
 
-//Google
 
+//Google
 export const google = async (req, res, next) => {
   const { email, name, googlePhotoUrl } = req.body;
 
@@ -103,7 +103,10 @@ export const google = async (req, res, next) => {
     });
 
     if (user) {
-      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+      const token = jwt.sign(
+        { id: user.id, isAdmin: user.isAdmin },
+        process.env.JWT_SECRET
+      );
       const { password, ...rest } = user; // Spread the user object to remove the password field
       res
         .status(200)
@@ -128,7 +131,10 @@ export const google = async (req, res, next) => {
         },
       });
 
-      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+      const token = jwt.sign(
+        { id: user.id, isAdmin: user.isAdmin },
+        process.env.JWT_SECRET
+      );
       const { password, ...rest } = user; // Spread the user object to remove the password field
       res
         .status(201)
