@@ -16,7 +16,8 @@ import {
   updateSuccess,
   deleteUserFailure,
   deleteUserStart,
-  deleteUserSuccess
+  deleteUserSuccess,
+  signoutSuccess
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import {HiOutlineExclamationCircle} from'react-icons/hi'
@@ -143,10 +144,6 @@ export default function DashProfile() {
         const userId = parseInt(currentUser.id, 10);
         const res = await fetch(`/api/user/delete/${userId}`, {
           method: "DELETE",
-          // headers: {
-          //   "Content-Type": "application/json",
-          // },
-          // body: JSON.stringify(formData),
         });
         const data = await res.json();
         if (!res.ok) {
@@ -160,6 +157,25 @@ export default function DashProfile() {
         dispatch(deleteUserFailure(error.message))
       }
   }
+
+  //Signout
+  const handleSignOut = async () => {
+    try {
+      const res = await fetch(`/api/user/signout`, {
+        method: "POST",
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  //returnnnnn
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
@@ -238,7 +254,7 @@ export default function DashProfile() {
         <span onClick={() => setShowModal(true)} className="cursor-pointer">
           Delete Account
         </span>
-        <span className="cursor-pointer">Sign out</span>
+        <span onClick={handleSignOut}className="cursor-pointer">Sign out</span>
       </div>
       {updateUserSuccess && (
         <Alert color="success" className="mt-6">

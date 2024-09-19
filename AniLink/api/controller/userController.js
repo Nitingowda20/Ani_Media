@@ -95,3 +95,14 @@ export const deleteUser = async (req, res, next) => {
     next(error); // Pass the error to the error-handling middleware
   }
 };
+
+//Signout USER
+
+export const signout=(req,res,next)=>{
+  try {
+    res.clearCooke=('access_token')
+    res.status(200).json("You have been signed out")
+  } catch (error) {
+    next(error)
+  }
+}
