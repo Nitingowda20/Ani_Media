@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import userRoutes from "./routes/userRoute.js";
 import authRoutes from "./routes/authRoute.js";
 import cookieParser from "cookie-parser"; 
+import postRoute from './routes/postRoute.js'
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -14,6 +15,8 @@ app.use(cookieParser());
 
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/post", postRoute);
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}!!!!!!!`);
