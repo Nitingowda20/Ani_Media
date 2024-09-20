@@ -1,6 +1,7 @@
 import { Alert, Button, Modal, TextInput } from "flowbite-react";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import {Link} from 'react-router-dom'
 import {
   getDownloadURL,
   getStorage,
@@ -23,7 +24,7 @@ import { useDispatch } from "react-redux";
 import {HiOutlineExclamationCircle} from'react-icons/hi'
 
 export default function DashProfile() {
-  const { currentUser , error } = useSelector((state) => state.user); 
+  const { currentUser , error , loading} = useSelector((state) => state.user); 
   const [imageFile, setImageFile] = useState(null);
   const [imageFileURL, setImageFileURL] = useState(null);
   const [ImageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -32,10 +33,11 @@ export default function DashProfile() {
   const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
   const [updateUserError, setUpdateUserError] = useState(null);
   const [showModal, setShowModal] = useState(false);
-
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
   const filePickerRef = useRef();
+
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -43,6 +45,7 @@ export default function DashProfile() {
       setImageFileURL(URL.createObjectURL(file));
     }
   };
+
   useEffect(() => {
     if (imageFile) {
       uploadImage();
@@ -54,10 +57,12 @@ export default function DashProfile() {
 
     setImageFileUploading(true)
     setImageFileUploadError(null);
+
     const storage = getStorage(app);
     const fileName = new Date().getTime() + imageFile.name;
     const storageRef = ref(storage, fileName);
     const uploadTask = uploadBytesResumable(storageRef, imageFile);
+
     uploadTask.on(
       "state_changed",
       (snapshot) => {
@@ -75,11 +80,11 @@ export default function DashProfile() {
         setImageFileURL(null);
         setImageFileUploading(false);
       },
-      () => {
+      async() => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImageFileURL(downloadURL);
           setFormData({ ...formData, profilePicture: downloadURL });
-          //   setImageFileUploading(false);
+            setImageFileUploading(false);
         });
       }
     );
@@ -245,16 +250,29 @@ export default function DashProfile() {
           placeholder="*********"
           onChange={handleChange}
         />
-        <Button type="submit" gradientDuoTone="purpleToBlue" outline>
-          {" "}
-          Update
+        <Button type="submit" gradientDuoTone="purpleToBlue" outline disabled={loading || ImageFileUploading}>
+          {loading ? 'Loading..' : " Update"}
         </Button>
+        {currentUser.isAdmin &&(
+          <Link to={'/create-post'}>
+            <Button
+            type="button"
+            gradientDuoTone='purpleToPink'
+            className="w-full"
+            >
+              Create a Post
+            </Button>
+          </Link>
+        ) }
+
       </form>
       <div className=" flex justify-between text-red-500 mt-5">
         <span onClick={() => setShowModal(true)} className="cursor-pointer">
           Delete Account
         </span>
-        <span onClick={handleSignOut}className="cursor-pointer">Sign out</span>
+        <span onClick={handleSignOut} className="cursor-pointer">
+          Sign out
+        </span>
       </div>
       {updateUserSuccess && (
         <Alert color="success" className="mt-6">
@@ -266,7 +284,7 @@ export default function DashProfile() {
           {error}
         </Alert>
       )}
-      {updateUserError && ( 
+      {updateUserError && (
         <Alert color="failure" className="mt-6">
           {updateUserError}
         </Alert>
