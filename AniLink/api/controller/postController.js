@@ -1,17 +1,4 @@
-import { errorHandler } from "../utils/error.js";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
-
-export const create = async (req, res, next) => {
-  const { title, content } = req.body;
-
-  // Validate required fields
-  if (!title || !content) {
-    return next(errorHandler(403, "You are not allowed to create a post"));
-  }
-
-  // Generate slug from the title
+  
   const slug = title
     .split(" ")
     .join("_")
