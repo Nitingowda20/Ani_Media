@@ -47,7 +47,7 @@ export default function DashSlideBar() {
               as="div"
               active={tab === "profile"}
               icon={HiUser}
-              label={currentUser ? "Admin" : "user"}
+              label={currentUser.isAdmin ? "Admin" : "User"}
               labelColor={"dark"}
             >
               Profile

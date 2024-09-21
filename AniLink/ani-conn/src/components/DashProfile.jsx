@@ -1,7 +1,7 @@
 import { Alert, Button, Modal, TextInput } from "flowbite-react";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import {
   getDownloadURL,
   getStorage,
@@ -36,7 +36,7 @@ export default function DashProfile() {
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
   const filePickerRef = useRef();
-
+  const navigate =useNavigate()
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -173,6 +173,7 @@ export default function DashProfile() {
       const data = await res.json();
       if (!res.ok) {
         console.log(data.message);
+        navigate('/sign-in')
       } else {
         dispatch(signoutSuccess());
       }

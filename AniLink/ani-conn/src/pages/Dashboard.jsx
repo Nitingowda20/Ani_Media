@@ -15,13 +15,13 @@ export default function Dashboard() {
     }
   },[location.search])
   return (
-    <div className='min-h-screen flex flex-col md:flex-row'> 
+    <div className="min-h-screen flex flex-col md:flex-row">
       <div>
         <DashSlideBar />
       </div>
-      <div>
-        {tab === 'post' && <DashPost />}
-        {tab==='profile' ? <DashProfile /> : null}
+      <div className="flex-grow justify-center items-start p-1">
+        {tab === "post" && <DashPost />}
+        {tab === "profile" ? <DashProfile /> : null}
       </div>
     </div>
   );
