@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 //To create the post
 export const create = async (req, res, next) => {
-  const { title, content , category } = req.body;
+  const { title, content, category, imageURL } = req.body;
   // Validate required fields
   if (!title || !content) {
     return next(errorHandler(403, "You are not allowed to create a post"));
@@ -23,6 +23,7 @@ export const create = async (req, res, next) => {
         content,
         slug,
         category,
+        image: imageURL,
         userId: req.user.id, // Assuming the user ID is in the request object
       },
     });
@@ -34,7 +35,6 @@ export const create = async (req, res, next) => {
     next(error);
   }
 };
-
 
 //To get the post
 export const getpost = async (req, res, next) => {
