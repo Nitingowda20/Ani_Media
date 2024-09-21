@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import {useLocation} from 'react-router-dom'
 import DashSlideBar from '../components/DashSlideBar';
 import DashProfile from '../components/DashProfile';
+import DashPost from '../components/DashPost';
 
 export default function Dashboard() {
   const location = useLocation();
@@ -19,7 +20,7 @@ export default function Dashboard() {
         <DashSlideBar />
       </div>
       <div>
-        {/* {tab === 'profile' && <DashProfile />} */}
+        {tab === 'post' && <DashPost />}
         {tab==='profile' ? <DashProfile /> : null}
       </div>
     </div>

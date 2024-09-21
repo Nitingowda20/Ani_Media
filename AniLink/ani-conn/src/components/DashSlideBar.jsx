@@ -1,14 +1,16 @@
 import React from "react";
 import { Sidebar } from "flowbite-react";
-import { HiArrowSmRight, HiUser } from "react-icons/hi";
+import { HiArrowSmRight, HiDocument, HiDocumentText, HiUser } from "react-icons/hi";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { signoutSuccess } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 export default function DashSlideBar() {
   const location = useLocation();
   const dispatch = useDispatch()
+  const {currentUser} =useSelector(state=> state.user)
   const [tab, setTab] = useState("");
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -39,18 +41,30 @@ export default function DashSlideBar() {
   return (
     <Sidebar className="w-full md:w-56">
       <Sidebar.Items>
-        <Sidebar.ItemGroup>
+        <Sidebar.ItemGroup className="flex flex-col gap-1">
           <Link to={"/Dashboard?tab=profile"}>
             <Sidebar.Item
               as="div"
               active={tab === "profile"}
               icon={HiUser}
-              label={"user"}
+              label={currentUser ? "Admin" : "user"}
               labelColor={"dark"}
             >
               Profile
             </Sidebar.Item>
           </Link>
+          {currentUser.isAdmin && (
+
+          <Link to={"/Dashboard?tab=post"}>
+            <Sidebar.Item
+              as="div"
+              active={tab === "post"}
+              icon={HiDocumentText}
+            >
+              Posts
+            </Sidebar.Item>
+          </Link>
+          )}
 
           <Sidebar.Item
             className="cursor-pointer"
