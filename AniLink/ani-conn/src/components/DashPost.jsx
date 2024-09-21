@@ -1,4 +1,4 @@
-import { Table, TableCell } from 'flowbite-react';
+import { Button, Table, TableCell } from 'flowbite-react';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
@@ -6,7 +6,9 @@ import { Link } from 'react-router-dom';
 export default function DashPost() {
   const {currentUser} = useSelector(state=> state.user)
   const [ userPost , setUserPost] = useState([])
-  console.log(userPost);
+  const [showMore , setShowMore] = useState(true)
+  // console.log(userPost);
+  
   useEffect(()=>{
     const fetchpost =async()=>{
       try {
@@ -14,6 +16,9 @@ export default function DashPost() {
         const data = await res.json()
         if(res.ok){
             setUserPost(data.posts)
+            if(data.posts.length < 9){
+              setShowMore(false)
+            }
         }
       } catch (error) {
         console.log(data.error);
@@ -24,6 +29,24 @@ export default function DashPost() {
       fetchpost()
     }
   },[currentUser.id , currentUser.isAdmin])
+
+  const handleShowMore =async()=>{
+    const startIndex = userPost.length;
+    try {
+       const res = await fetch(`/api/post/getpost?userId=${currentUser.id}&startIndex=${startIndex}`);
+       const data = await res.json();
+       if (res.ok) {
+         setUserPost((prev)=>[...prev , ...data.posts]);
+         if (data.posts.length < 9) {
+           setShowMore(false);
+         }
+       }
+    } catch (error) {
+      console.log(error);
+      
+    }
+
+  }
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       {currentUser.isAdmin && userPost.length > 0 ? (
@@ -80,6 +103,12 @@ export default function DashPost() {
               ))}
             </Table.Body>
           </Table>
+          {
+            showMore && (
+            <button  onClick={handleShowMore} className='w-full text-teal-500 py-7 self-center text-sm'>
+              Show More
+            </button>
+          )}
         </>
       ) : (
         <p>you have no post </p>

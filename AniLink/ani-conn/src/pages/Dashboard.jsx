@@ -19,7 +19,7 @@ export default function Dashboard() {
       <div>
         <DashSlideBar />
       </div>
-      <div className="flex-grow justify-center items-start p-1">
+      <div className="flex-grow flex justify-center items-start p-1">
         {tab === "post" && <DashPost />}
         {tab === "profile" ? <DashProfile /> : null}
       </div>
