@@ -10,6 +10,7 @@ import HeaderSec from './components/HeaderSec'
 import FooterSec from './components/FooterSec'
 import PrivateRoute from './components/PrivateRoute'
 import CreatePost from './pages/CreatePost'
+import UpdatePost from './pages/UpdatePost'
 
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
         </Route>
         <Route path="/project" element={<Projects />}></Route>
         <Route path="/create-post" element={<CreatePost />}></Route>
+        <Route path="/update-post/:postId" element={<UpdatePost />}></Route>
       </Routes>
 
       <FooterSec />
