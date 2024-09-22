@@ -93,3 +93,26 @@ export const getpost = async (req, res, next) => {
     next(errorHandler(500, "Failed to fetch posts"));
   }
 };
+
+//Deleting post
+export const deletePost=async(req , res ,next)=>{
+    const userIdFromParams = parseInt(req.params.userId, 10); // Convert ID to integer
+    const userIdFromToken = parseInt(req.user.id, 10); // Ensure user.id is an integer
+
+  if (!req.user.isAdmin || userIdFromParams !== userIdFromToken) {
+    return next(errorHandler(403, "You are not allowed to delete this post"));
+  }
+  const {postId} = req.params
+  try {
+    const deletedPost = await prisma.post.delete({
+      where: {
+        id: Number(postId)
+      },
+    });
+    return res
+      .status(200)
+      .json({ message: "Post deleted successfully", post: deletedPost });
+  } catch (error) {
+    next(error)
+  }
+}
