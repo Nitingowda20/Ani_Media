@@ -4,6 +4,7 @@ import userRoutes from "./routes/userRoute.js";
 import authRoutes from "./routes/authRoute.js";
 import cookieParser from "cookie-parser"; 
 import postRoute from './routes/postRoute.js'
+import commentRoute from "./routes/commentRoute.js";
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -16,6 +17,8 @@ app.use(cookieParser());
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoute);
+app.use("/api/comment", commentRoute);
+
 
 
 app.listen(port, () => {
