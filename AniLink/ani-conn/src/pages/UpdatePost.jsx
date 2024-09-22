@@ -87,6 +87,7 @@ export default function UpdatePost() {
       setPublishError("Please upload an image before submitting.");
       return;
     }
+    // console.log("Form Data being sent:", formData);
     try {
       const res = await fetch(`/api/post/updatepost/${postId}/${currentUser.id}`, {
         method: "PUT",

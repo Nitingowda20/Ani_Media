@@ -126,7 +126,7 @@ export const updatepost = async (req, res, next) => {
     return next(errorHandler(403, "You are not allowed to delete this post"));
   }
   const { postId } = req.params;
-
+  
   try {
     const updatingPost = await prisma.post.update({
       where: {
