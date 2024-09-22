@@ -71,18 +71,17 @@ export const updateUser = async (req, res, next) => {
     console.error("Error updating user:", error);
     next(error);
   }
-  
 };
 
 //Delete the user
 export const deleteUser = async (req, res, next) => {
   // Convert both ids to integers for comparison
-    const userIdFromParams = parseInt(req.params.userId, 10); // Convert ID to integer
-    const userIdFromToken = parseInt(req.user.id, 10); // Ensure user.id is an integer
+  const userIdFromParams = parseInt(req.params.userId, 10); // Convert ID to integer
+  const userIdFromToken = parseInt(req.user.id, 10); // Ensure user.id is an integer
 
-    if (userIdFromParams !== userIdFromToken) {
-      return next(errorHandler(403, "You are not allowed to update this user"));
-    }
+  if (userIdFromParams !== userIdFromToken) {
+    return next(errorHandler(403, "You are not allowed to update this user"));
+  }
 
   try {
     await prisma.user.delete({
@@ -98,11 +97,60 @@ export const deleteUser = async (req, res, next) => {
 
 //Signout USER
 
-export const signout=(req,res,next)=>{
+export const signout = (req, res, next) => {
   try {
-    res.clearCooke=('access_token')
-    res.status(200).json("You have been signed out")
+    res.clearCooke = "access_token";
+    res.status(200).json("You have been signed out");
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
+
+//get user
+export const getuser = async (req, res, next) => {
+  if (!req.user.isAdmin) {
+    return res
+      .status(403)
+      .json(errorHandler(403, "You are not allowed to see the user"));
+  }
+
+  try {
+    const startIndex = parseInt(req.query.startIndex) || 0;
+    const limit = parseInt(req.query.limit) || 9;
+    const sortDirection = req.query.order === "asc" ? "asc" : "desc";
+
+    //users with pagination, filters, and sorting
+    const users = await prisma.user.findMany({
+      orderBy: { createdAt: sortDirection },
+      skip: startIndex,
+      take: limit,
+    });
+
+    //total number of users
+    const totalUsers = await prisma.user.count();
+
+    // Calculate date for one month ago
+    const now = new Date();
+    const oneMonthAgo = new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      now.getDate()
+    );
+
+    // Fetch number of users created in the last month
+    const lastMonthUsers = await prisma.user.count({
+      where: { createdAt: { gte: oneMonthAgo } },
+    });
+    const userWithoutPassword = users.map((user) => {
+      const { password, ...rest } = user;
+      return rest;
+    });
+    res.status(200).json({
+      users: userWithoutPassword,
+      totalUsers,
+      lastMonthUsers,
+    });
+  } catch (error) {
+    next(errorHandler(500, "Failed to fetch users"));
+  }
+};
