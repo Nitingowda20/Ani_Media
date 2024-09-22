@@ -79,7 +79,7 @@ export const deleteUser = async (req, res, next) => {
   const userIdFromParams = parseInt(req.params.userId, 10); // Convert ID to integer
   const userIdFromToken = parseInt(req.user.id, 10); // Ensure user.id is an integer
 
-  if (userIdFromParams !== userIdFromToken) {
+  if (!req.user.isAdmin && userIdFromParams !== userIdFromToken) {
     return next(errorHandler(403, "You are not allowed to update this user"));
   }
 
