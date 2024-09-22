@@ -22,7 +22,7 @@ export default function UpdatePost() {
   const [publishError, setPublishError] = useState(null);
   const navigate = useNavigate();
   const { postId } = useParams();
-  const {currentUser} =useSelector((state) => state.user)
+  const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -89,18 +89,21 @@ export default function UpdatePost() {
     }
     // console.log("Form Data being sent:", formData);
     try {
-      const res = await fetch(`/api/post/updatepost/${postId}/${currentUser.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: formData.title,
-          content: formData.content,
-          category: formData.category,
-          imageURL: formData.image,
-        }),
-      });
+      const res = await fetch(
+        `/api/post/updatepost/${postId}/${currentUser.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: formData.title,
+            content: formData.content,
+            category: formData.category,
+            image: formData.image,
+          }),
+        }
+      );
       const data = await res.json();
       if (!res.ok) {
         setPublishError(data.message);
@@ -149,7 +152,6 @@ export default function UpdatePost() {
             type="file"
             accept="image/*"
             onChange={(e) => setFile(e.target.files[0])}
-            // value={formData.image }
           />
           <Button
             type="button"
@@ -162,7 +164,7 @@ export default function UpdatePost() {
             {imageUploadProgress ? (
               <div className="w-12 h-12">
                 <CircularProgressbar
-                  value={imageUploadProgress}
+                  value={formData.image}
                   text={`${imageUploadProgress || 0}%`}
                 />
               </div>
