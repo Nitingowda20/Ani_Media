@@ -1,15 +1,40 @@
-import { Alert, Button, Textarea, TextInput } from "flowbite-react";
-import { useState } from "react";
+import { Alert, Button, Textarea } from "flowbite-react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Comment from "./Comment";
 
 export default function CommentSection({ postId }) {
   const { currentUser } = useSelector((state) => state.user);
   const [comment, setComment] = useState("");
   const [commentError, setCommentError] = useState(null);
+  const [comments, setComments] = useState([]);
+  // console.log(comments);
+
+    useEffect(() => {
+      const getComments = async () => {
+        try {
+          const res = await fetch(`/api/comment/getpostcomments/${postId}`);
+          if (res.ok) {
+            const data = await res.json();
+            setComments(data);
+          } else {
+            console.error("Failed to fetch comments");
+          }
+        } catch (error) {
+          console.log(error.message);
+        }
+      };
+      getComments();
+    }, [postId]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!currentUser) {
+      setCommentError("You must be signed in to comment");
+      return; // Prevent submission if there's no user
+    }
     if (comment.length > 200) {
       return;
     }
@@ -25,15 +50,21 @@ export default function CommentSection({ postId }) {
           userId: currentUser.id,
         }),
       });
-      const data = await res.json();
       if (res.ok) {
+        const data = await res.json();
         setComment("");
         setCommentError(null);
+        setComments((prevComments) => [data, ...prevComments]);
+      } else {
+        const errorData = await res.json();
+        setCommentError(errorData.message); // Show error message from API
       }
     } catch (error) {
       setCommentError(error.message);
     }
   };
+
+
   return (
     <div className=" max-w-2xl p-3 mx-auto w-full">
       {currentUser ? (
@@ -87,6 +118,31 @@ export default function CommentSection({ postId }) {
             </Alert>
           )}
         </form>
+      )}
+      {comments.length === 0 ? (
+        <p className="text-sm my-5">No comments yet!</p>
+      ) : (
+        <>
+          <div className="text-sm my-5 flex items-center gap-1">
+            <p>Comments</p>
+            <div className="border border-gray-400 py-1 px-2 rounded-sm">
+              <p>{comments.length}</p>
+            </div>
+          </div>
+          {comments.map((comment) => (
+            // <h1>hiiii</h1>
+            <Comment
+              key={comment.id}
+              comment={comment}
+              //   onLike={handleLike}
+              //   onEdit={handleEdit}
+              //   onDelete={(commentId) => {
+              //     setShowModal(true);
+              //     setCommentToDelete(commentId);
+              //   }}
+            />
+          ))}
+        </>
       )}
     </div>
   );

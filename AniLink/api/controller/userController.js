@@ -154,3 +154,30 @@ export const getuser = async (req, res, next) => {
     next(errorHandler(500, "Failed to fetch users"));
   }
 };
+
+
+export const getUser = async (req, res, next) => {
+  const userId = parseInt(req.params.userId);
+
+  if (!userId) {
+    return next(errorHandler(400, "User ID is required"));
+  }
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId, // Make sure the 'id' matches the field name in your Prisma schema
+      },
+    });
+
+    if (!user) {
+      return next(errorHandler(403, "User not found"));
+    }
+
+    const { password, ...rest } = user;
+    res.status(200).json(rest);
+  } catch (error) {
+    console.log("Error fetching user:", error);
+    next(error);
+  }
+};
