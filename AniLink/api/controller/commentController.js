@@ -46,3 +46,54 @@ export const getPostComment = async (req, res, next) => {
   }
 };
 
+//to see like
+export const likeComment = async (req, res, next) => {
+  const commentId = parseInt(req.params.commentId, 10);
+  const userId = parseInt(req.user.id , 10);
+
+   console.log("commentId:", commentId); // Debugging log
+   console.log("userId:", userId); // Debugging log
+
+   // Check if commentId and userId are valid integers
+   if (isNaN(commentId) || isNaN(userId)) {
+     return next(errorHandler(400, "Invalid request parameters"));
+   }
+  try {
+    const comment = await prisma.comment.findUnique({
+      where: {
+        id: commentId,
+      },
+    });
+    if(!comment){
+      return next(errorHandler(403,"Comment not found"))
+    }
+    let updatedComment;
+    const userIndex = comment.likes.indexOf(userId);
+    
+    if (userIndex === -1) {
+      // User has not liked the comment yet, so add the userId to the likes array
+      updatedComment = await prisma.comment.update({
+        where: { id: commentId },
+        data: {
+          Numberoflikes: comment.Numberoflikes + 1,
+          likes: {
+            push: userId, // Push the userId into the likes array
+          },
+        },
+      });
+    } else {
+      // User has already liked the comment, so remove the userId from the likes array
+      const updatedLikes = comment.likes.filter((id) => id !== userId);
+      updatedComment = await prisma.comment.update({
+        where: { id:commentId },
+        data: {
+          Numberoflikes: comment.Numberoflikes - 1,
+          likes: updatedLikes, // Set the likes array without the userId
+        },
+      });
+    }
+    res.status(200).json(updatedComment); 
+  } catch (error) {
+    next(error)
+  }
+}
