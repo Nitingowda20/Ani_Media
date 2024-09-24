@@ -15,41 +15,34 @@ Welcome to **Tech Insights** – your go-to resource for tutorials, coding tips,
 
 In the ever-evolving world of technology, keeping up with new programming languages, tools, and frameworks can be a challenge. Our blog is dedicated to helping developers stay updated, refine their skills, and explore new ideas. We offer content on topics ranging from web development and back-end programming to cloud technologies and DevOps.
 
-## Blog Features
+# Blog Features
 
-- **In-depth Tutorials**: Step-by-step guides to learn new technologies and solve specific coding problems.
-- **Coding Tips**: Quick tips to improve your coding efficiency and best practices.
-- **Tech Insights**: Reviews and analyses of the latest programming languages, frameworks, and tools.
-- **Project Ideas**: Inspiration for building personal and professional development projects.
-- **Community Discussions**: Join the conversation, ask questions, and share your own experiences.
+This blog platform provides several powerful and user-friendly features to enhance the experience for both readers and content creators.
+
+## Features
+
+- **User Authentication**: Secure login and sign-up with Google (G-Sign) for easy access.
+- **Post Creation & Management**: Users can create, update, and delete blog posts.
+- **Commenting System**: Engage with content through a built-in commenting feature for each post.
+- **Like/Dislike System**: Interactive features allowing users to like or dislike posts.
+- **Profile Management**: Users can update their profile information, including profile pictures.
+- **Search Functionality**: Easily search through blog posts using keywords.
+- **Responsive Design**: Optimized for mobile and desktop, providing a seamless user experience across devices.
 
 ## Technologies Covered
 
 We focus on a wide range of technologies, including:
 
-- **Programming Languages**: JavaScript, Python, Java, and more.
-- **Web Development**: HTML, CSS, React, Node.js, Express, and MongoDB.
+- **Programming Languages**: JavaScript
+- **Web Development**: HTML, CSS, React, Node.js, Express, and Prisma.
 - **Version Control**: Git, GitHub.
 - **Database Management**: SQL, NoSQL (e.g., MongoDB, Prisma).
-- **Cloud Platforms**: AWS, Firebase.
-- **DevOps**: Docker, CI/CD pipelines.
-
-## How to Contribute
-
-We welcome contributions from developers of all levels! If you’d like to write a guest post or suggest new topics, follow these steps:
-
-1. **Fork the repository**.
-2. **Create a new branch** (`git checkout -b feature/your-idea`).
-3. **Make your changes** and commit them (`git commit -m 'Add some feature'`).
-4. **Push to the branch** (`git push origin feature/your-idea`).
-5. **Submit a pull request**.
-
-Feel free to open issues if you encounter any problems or have questions.
+- **Cloud Platforms**: Firebase.
 
 ## Contact
 
 For any inquiries, topic requests, or collaboration opportunities, feel free to reach out:
 
-- Email: contact@techinsights.com
-- Twitter: [@TechInsights](https://twitter.com/techinsights)
-- GitHub: [Tech Insights](https://github.com/YourRepo)
+- Email: Nitingowda3448@gmail.com
+<!-- - Twitter: [@TechInsights](https://twitter.com/techinsights) -->
+- GitHub: [Tech Insights](https://github.com/Nitingowda20)
