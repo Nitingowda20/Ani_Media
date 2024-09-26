@@ -3,15 +3,12 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { FaThumbsUp } from "react-icons/fa";
 import { useSelector } from "react-redux";
-// import { useSelector } from "react-redux";
-// import { Button, Textarea } from "flowbite-react";
 
-export default function Comment({ comment, onLike , onEdit }) {
+export default function Comment({ comment, onLike , onEdit , onDelete }) {
   const { currentUser } = useSelector((state) => state.user);
   const [user, setUser] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content);
-  //   const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
     const getUser = async () => {
@@ -83,11 +80,22 @@ export default function Comment({ comment, onLike , onEdit }) {
               value={editedContent}
               onChange={(e) => setEditedContent(e.target.value)}
             />
-            <div className="flex justify-end gap-2 text-xs" > 
-              <Button type="button" size="sm" gradientDuoTone="purpleToBlue" onClick={handleSave}>
+            <div className="flex justify-end gap-2 text-xs">
+              <Button
+                type="button"
+                size="sm"
+                gradientDuoTone="purpleToBlue"
+                onClick={handleSave}
+              >
                 Save
               </Button>
-              <Button type="buttom" size="sm" gradientDuoTone="purpleToBlue" outline onClick={(e)=>setIsEditing(false)}>
+              <Button
+                type="buttom"
+                size="sm"
+                gradientDuoTone="purpleToBlue"
+                outline
+                onClick={(e) => setIsEditing(false)}
+              >
                 Cancel
               </Button>
             </div>
@@ -101,12 +109,14 @@ export default function Comment({ comment, onLike , onEdit }) {
                 onClick={() => onLike(comment.id)}
                 className={`text-gray-400 hover:text-blue-500 ${
                   currentUser &&
+                  Array.isArray(comment.likes) &&
                   comment.likes.includes(currentUser.id) &&
                   "!text-blue-500"
                 }`}
               >
                 <FaThumbsUp className="text-sm" />
               </button>
+
               <p className="text-gray-400">
                 {comment.Numberoflikes > 0 &&
                   comment.Numberoflikes +
@@ -115,13 +125,22 @@ export default function Comment({ comment, onLike , onEdit }) {
               </p>
               {currentUser &&
                 (currentUser.id === comment.userId || currentUser.isAdmin) && (
-                  <button
-                    type="button"
-                    onClick={handleEdit}
-                    className="text-gray-400 hover:text-blue-500"
-                  >
-                    Edit
-                  </button>
+                  <>
+                    <button
+                      type="button"
+                      onClick={handleEdit}
+                      className="text-gray-400 hover:text-blue-500"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onDelete(comment.id)}
+                      className="text-gray-400 hover:text-red-600"
+                    >
+                      Delete
+                    </button>
+                  </>
                 )}
             </div>
           </>
