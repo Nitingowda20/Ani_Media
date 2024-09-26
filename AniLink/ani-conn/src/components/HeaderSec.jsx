@@ -104,7 +104,9 @@ export default function HeaderSec() {
               <Dropdown.Item>Profile</Dropdown.Item>
             </Link>
             <DropdownDivider />
+            <Link to={"/sign-in"}>
             <Dropdown.Item onClick={handleSignOut}>Sign Out</Dropdown.Item>
+            </Link>
           </Dropdown>
         ) : (
           <Link to={"/sign-in"}>

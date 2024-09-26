@@ -1,6 +1,6 @@
 import { Alert, Button, Textarea } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { Link , useNavigate } from "react-router-dom";
 import Comment from "./Comment";
 
@@ -94,6 +94,10 @@ const handleLike=async(commentId)=>{
     
   }
 }
+const handleEdit =async(comment , editedContent)=>{
+  setComments(comments.map((c)=>
+  c.id === comment.id ? { ...c , content : editedContent} : c))
+}
   return (
     <div className=" max-w-2xl p-3 mx-auto w-full">
       {currentUser ? (
@@ -164,7 +168,7 @@ const handleLike=async(commentId)=>{
               key={comment.id || index}
               comment={comment}
                 onLike={handleLike}
-              //   onEdit={handleEdit}
+                onEdit={handleEdit}
               //   onDelete={(commentId) => {
               //     setShowModal(true);
               //     setCommentToDelete(commentId);
