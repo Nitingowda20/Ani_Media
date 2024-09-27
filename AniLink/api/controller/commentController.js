@@ -183,7 +183,7 @@ export const getComment = async (req, res, next) => {
     });
 
     //total number of comments
-    const totalCommets = await prisma.comment.count();
+    const totalComments = await prisma.comment.count();
 
     // Calculate date for one month ago
     const now = new Date();
@@ -200,7 +200,7 @@ export const getComment = async (req, res, next) => {
 
     res.status(200).json({
       comments,
-      totalCommets,
+      totalComments,
       lastMonthCommets,
     });
   } catch (error) {
