@@ -2,7 +2,6 @@ import { Button, Modal, Table, TableCell } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useSelector } from "react-redux";
-import { FaCheck, FaTimes } from "react-icons/fa";
 export default function DashComments() {
   const { currentUser } = useSelector((state) => state.user);
   const [comments, setComments] = useState([]);
@@ -65,7 +64,7 @@ export default function DashComments() {
   };
 
   return (
-    <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
+    <div className="w-full table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       {currentUser.isAdmin && comments.length > 0 ? (
         <>
           <Table hoverable className="shadow-md">
