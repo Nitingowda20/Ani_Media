@@ -161,3 +161,49 @@ export const deleteComment = async (req, res, next) => {
     next(error)
   }
 }
+
+//getcomments
+export const getComment = async (req, res, next) => {
+
+  if (!req.user.isAdmin) {
+    return next(
+      errorHandler(400, "You are not allowed to get all the comments")
+    );
+  }
+  try {
+    const startIndex = parseInt(req.query.startIndex) || 0;
+    const limit = parseInt(req.query.limit) || 9;
+    const sortDirection = req.query.order === "asc" ? "asc" : "desc";
+
+    //users with pagination, filters, and sorting
+    const comments = await prisma.comment.findMany({
+      orderBy: { createdAt: sortDirection },
+      skip: startIndex,
+      take: limit,
+    });
+
+    //total number of comments
+    const totalCommets = await prisma.comment.count();
+
+    // Calculate date for one month ago
+    const now = new Date();
+    const oneMonthAgo = new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      now.getDate()
+    );
+
+    // Fetch number of users created in the last month
+    const lastMonthCommets = await prisma.comment.count({
+      where: { createdAt: { gte: oneMonthAgo } },
+    });
+
+    res.status(200).json({
+      comments,
+      totalCommets,
+      lastMonthCommets,
+    });
+  } catch (error) {
+    next(error)
+  }
+}

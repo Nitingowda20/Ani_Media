@@ -17,7 +17,7 @@ export default function PostPage() {
         const fetchPost =async()=>{
             try {
                 setLoading(true )
-                const res = await fetch(`/api/post/getpost?slu=${postSlug}`)
+                const res = await fetch(`/api/post/getpost?slug=${postSlug}`)
                 const data = await res.json()
                 if(!res.ok){
                     setError(true)

@@ -65,13 +65,24 @@ export default function DashSlideBar() {
             </Link>
           )}
           {currentUser.isAdmin && (
+            <Link to={"/Dashboard?tab=comments"}>
+              <Sidebar.Item
+                as="div"
+                active={tab === "comments"}
+                icon={HiDocument}
+              >
+                Comments
+              </Sidebar.Item>
+            </Link>
+          )}
+          {currentUser.isAdmin && (
             <Link to={"/Dashboard?tab=users"}>
               <Sidebar.Item
                 as="div"
                 active={tab === "users"}
                 icon={HiOutlineUserGroup}
               >
-                Users 
+                Users
               </Sidebar.Item>
             </Link>
           )}
