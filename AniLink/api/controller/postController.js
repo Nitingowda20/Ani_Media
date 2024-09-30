@@ -45,7 +45,9 @@ export const getpost = async (req, res, next) => {
   try {
     const startIndex = parseInt(req.query.startIndex) || 0;
     const limit = parseInt(req.query.limit) || 9;
-    const sortDirection = req.query.order === "asc" ? "asc" : "desc";
+    // const sortDirection = req.query.order === "asc" ? "asc" : "desc";
+    const sortDirection = req.query.sort === "asc" ? "asc" : "desc";
+
 
     const whereClause = {
       ...(req.query.userId && { userId: parseInt(req.query.userId) }),
