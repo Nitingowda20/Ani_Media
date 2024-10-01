@@ -52,19 +52,26 @@ export const unsavePost = async (req, res, next) => {
 // Fetch all saved posts for a user
 export const getSavedPosts = async (req, res, next) => {
   try {
-    const { userId } = req.query;
-
-    // Get the list of saved posts by the user
+    const userId = parseInt(req.user.id, 10);
     const savedPosts = await prisma.savelist.findMany({
-      where: { userId: parseInt(userId) },
+      where: { userId: userId }, // Pass userId correctly
       include: { post: true }, // Include post data
     });
-
-    res.status(200).json(savedPosts);
+    if (savedPosts.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No saved posts found" });
+    }
+    res.status(200).json({
+      success: true,
+      savedPosts: savedPosts, 
+    });
   } catch (error) {
+    console.error("Error fetching saved posts:", error); // Log the actual error
     next(errorHandler(500, "Failed to fetch saved posts"));
   }
 };
+
 
 //check if post is saved by a particular user
 export const checkSavedPost = async (req, res) => {
@@ -85,5 +92,3 @@ export const checkSavedPost = async (req, res) => {
     return res.status(500).json({ message: "Error checking saved status." });
   }
 };
-
-
