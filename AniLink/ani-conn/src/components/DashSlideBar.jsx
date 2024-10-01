@@ -1,6 +1,6 @@
 import React from "react";
 import { Sidebar } from "flowbite-react";
-import { HiArrowSmRight, HiChartPie, HiDocument, HiDocumentText, HiOutlineUserGroup, HiUser } from "react-icons/hi";
+import { HiArrowSmRight, HiChartPie, HiDocument, HiDocumentText, HiOutlineSave, HiOutlineUserGroup, HiUser } from "react-icons/hi";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { signoutSuccess } from "../redux/user/userSlice";
@@ -64,6 +64,18 @@ export default function DashSlideBar() {
               Profile
             </Sidebar.Item>
           </Link>
+
+          <Link to={"/Dashboard?tab=savedpost"}>
+            <Sidebar.Item
+              as="div"
+              active={tab === "savedpost"}
+              icon={HiOutlineSave}
+              labelColor={"dark"}
+            >
+              Saved post
+            </Sidebar.Item>
+          </Link>
+          
           {currentUser.isAdmin && (
             <Link to={"/Dashboard?tab=post"}>
               <Sidebar.Item

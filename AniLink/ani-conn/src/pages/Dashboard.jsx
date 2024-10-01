@@ -6,6 +6,7 @@ import DashPost from '../components/DashPost';
 import DashUser from '../components/DashUser';
 import DashComments from "../components/DashComments";
 import DashboardComp from '../components/DashboardComp';
+import DashSavelist from '../components/DashSavelist';
 
 
 export default function Dashboard() {
@@ -24,11 +25,12 @@ export default function Dashboard() {
         <DashSlideBar />
       </div>
       {/* <div className="flex-grow flex justify-center items-start p-1"> */}
-        {tab === "post" && <DashPost />}
-        {tab === "profile" ? <DashProfile /> : null}
-        {tab === "users" && <DashUser />}
-        {tab === "comments" && <DashComments />}
-        {tab === "dash" && <DashboardComp/>}
+      {tab === "post" && <DashPost />}
+      {tab === "profile" ? <DashProfile /> : null}
+      {tab === "users" && <DashUser />}
+      {tab === "comments" && <DashComments />}
+      {tab === "dash" && <DashboardComp />}
+      {tab === "savedpost" && <DashSavelist />}
       {/* </div> */}
     </div>
   );

@@ -5,6 +5,8 @@ import authRoutes from "./routes/authRoute.js";
 import cookieParser from "cookie-parser"; 
 import postRoute from './routes/postRoute.js'
 import commentRoute from "./routes/commentRoute.js";
+import savelist from "./routes/savelist.js";
+
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -18,6 +20,8 @@ app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoute);
 app.use("/api/comment", commentRoute);
+app.use("/api/savelist", savelist);
+
 
 
 
