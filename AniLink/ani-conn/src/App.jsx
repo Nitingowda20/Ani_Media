@@ -1,20 +1,19 @@
-import React from 'react'
-import {BrowserRouter , Routes , Route} from 'react-router-dom'
-import Home from './pages/Home'
-import Dashboard from './pages/Dashboard'
-import Projects from './pages/Projects'
-import SignInPage from './pages/SignInPage'
-import SignOutPage from './pages/SignOutPage'
-import AboutPage from './pages/AboutPage'
-import HeaderSec from './components/HeaderSec'
-import FooterSec from './components/FooterSec'
-import PrivateRoute from './components/PrivateRoute'
-import CreatePost from './pages/CreatePost'
-import UpdatePost from './pages/UpdatePost'
-import PostPage from './pages/PostPage'
-import ScrollToTop from './components/ScrollToTop'
-import Search from './pages/Search'
-
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Dashboard from "./pages/Dashboard";
+import Projects from "./pages/Projects";
+import SignInPage from "./pages/SignInPage";
+import SignOutPage from "./pages/SignOutPage";
+import AboutPage from "./pages/AboutPage";
+import HeaderSec from "./components/HeaderSec";
+import FooterSec from "./components/FooterSec";
+import PrivateRoute from "./components/PrivateRoute";
+import CreatePost from "./pages/CreatePost";
+import UpdatePost from "./pages/UpdatePost";
+import PostPage from "./pages/PostPage";
+import ScrollToTop from "./components/ScrollToTop";
+import Search from "./pages/Search";
 
 export default function App() {
   return (
