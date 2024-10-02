@@ -6,6 +6,8 @@ import cookieParser from "cookie-parser";
 import postRoute from './routes/postRoute.js'
 import commentRoute from "./routes/commentRoute.js";
 import savelist from "./routes/savelist.js";
+import likeRoute from "./routes/likeRoute.js";
+
 
 
 const app = express();
@@ -21,9 +23,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoute);
 app.use("/api/comment", commentRoute);
 app.use("/api/savelist", savelist);
-
-
-
+app.use("/api/like", likeRoute);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}!!!!!!!`);

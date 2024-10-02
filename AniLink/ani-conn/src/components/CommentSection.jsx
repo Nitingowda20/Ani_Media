@@ -97,6 +97,7 @@ export default function CommentSection({ postId }) {
       console.log(error.message);
     }
   };
+  
   const handleEdit = async (comment, editedContent) => {
     setComments(
       comments.map((c) =>

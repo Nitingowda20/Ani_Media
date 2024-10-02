@@ -1,4 +1,4 @@
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button, Spinner } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import CallToAction from "../components/CallToAction";
@@ -6,6 +6,7 @@ import CommentSection from "../components/CommentSection";
 import PostCard from "../components/PostCard";
 import { HiBookmark, HiOutlineBookmark } from "react-icons/hi";
 import { useSelector } from "react-redux";
+import { FaHeart } from "react-icons/fa";
 
 export default function PostPage() {
   const { postSlug } = useParams();
@@ -15,6 +16,9 @@ export default function PostPage() {
   const [recentPosts, setRecentPosts] = useState(null);
   const { currentUser } = useSelector((state) => state.user);
   const [isSaved, setIsSaved] = useState(false);
+  const [isLiked, setIsLiked] = useState(false); // Track if the user has liked the post
+  const [likes, setLikes] = useState(0); // Track the number of likes
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -27,13 +31,36 @@ export default function PostPage() {
           setLoading(false);
           return;
         }
-        if (res.ok) {
-          setPost(data.posts[0]);
-          setLoading(false);
-          setError(false);
+
+        const fetchedPost = data.posts[0];
+        setPost(fetchedPost);
+        setLikes(fetchedPost.Numberoflikes || 0); // Set initial likes
+        setLoading(false);
+        setError(false);
+
+        // Set the initial likes count
+        setLikes(fetchedPost.Numberoflikes || 0);
+
+        // Check if the user has liked the post
+        const hasLiked = await fetch(
+          `/api/like/check?postId=${fetchedPost.id}&userId=${currentUser?.id}`
+        );
+        const likeData = await hasLiked.json();
+        if (likeData.hasLiked) {
+          setIsLiked(true); // If user has liked the post, set isLiked to true
+        } else {
+          setIsLiked(false);
         }
+
+        if (fetchedPost.likes && currentUser) {
+          const userLiked = fetchedPost.likes.some(
+            (like) => like.userId === currentUser.id
+          );
+          setIsLiked(userLiked); // Set like status
+        }
+        // Check if the post is saved by the user
         const isPostSaved = await checkIfPostIsSaved(
-          data.posts[0].id,
+          fetchedPost.id,
           currentUser?.id
         );
         setIsSaved(isPostSaved);
@@ -42,8 +69,9 @@ export default function PostPage() {
         setLoading(false);
       }
     };
+
     fetchPost();
-  }, [postSlug]);
+  }, [postSlug, currentUser]);
 
   const checkIfPostIsSaved = async (postId, userId) => {
     if (!userId) return false; // If the user is not logged in, return false
@@ -59,36 +87,35 @@ export default function PostPage() {
   };
 
   useEffect(() => {
-    try {
-      const fetchRecentPost = async () => {
+    const fetchRecentPost = async () => {
+      try {
         const res = await fetch(`/api/post/getpost?limit=3`);
         const data = await res.json();
         if (res.ok) {
           setRecentPosts(data.posts);
         }
-      };
-      fetchRecentPost();
-    } catch (error) {
-      console.log(error.message);
-    }
-  });
-  if (loading)
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    fetchRecentPost();
+  }, []);
+
+  if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <Spinner size="xl" />
       </div>
     );
-  //savelist post
+  }
+
   const savePost = async (postId) => {
     if (!currentUser) {
       console.error("User is not logged in.");
       return;
     }
     try {
-      const url = isSaved
-        ? "/api/savelist/unsave" // API endpoint to remove saved post
-        : "/api/savelist/savepost"; // API endpoint to save post
-
+      const url = isSaved ? "/api/savelist/unsave" : "/api/savelist/savepost";
       const method = isSaved ? "DELETE" : "POST";
       const res = await fetch(url, {
         method: method,
@@ -98,7 +125,7 @@ export default function PostPage() {
 
       const data = await res.json();
       if (res.ok) {
-        setIsSaved((prevState) => !prevState); // Toggle the saved state using functional update
+        setIsSaved((prevState) => !prevState);
         console.log(isSaved ? "Post removed from saved" : "Post saved", data);
       } else {
         console.error(data.message);
@@ -108,36 +135,38 @@ export default function PostPage() {
     }
   };
 
-  // const unSavePost = async (postId) => {
-  //   if (!currentUser) {
-  //     console.error("User is not logged in.");
-  //     return;
-  //   }
-  //   try {
-  //     const res = await fetch("/api/savelist/unsave", {
-  //       method: "DELETE",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({ postId, userId: currentUser.id }),
-  //     });
+  const handleLikeClick = async () => {
+    if (!currentUser) {
+      navigate("/sign-in"); // Redirect to login if user is not logged in
+      return;
+    }
 
-  //     const data = await res.json();
-  //     if (res.ok) {
-  //       console.log("Removed saved post:", data);
-  //     } else {
-  //       console.error(data.message);
-  //     }
-  //   } catch (err) {
-  //     console.error("Error removing saved post:", err);
-  //   }
-  // };
+    try {
+      const res = await fetch(`/api/like/likepost/${post.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setIsLiked((prev) => !prev); // Toggle like status
+        setLikes(data.Numberoflikes); // Update the number of likes
+      } else {
+        console.error("Failed to like/unlike post:", data.message);
+      }
+    } catch (err) {
+      console.error("Error liking the post:", err);
+    }
+  };
+
   return (
     <main className="p-3 flex flex-col max-w-6xl mx-auto min-h-screen">
       <div className="flex">
         <h1 className="text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl">
-          {post && post.title}
+          {post?.title}
         </h1>
-
-        {/* //savelistbuttonnnnnnnnnn */}
         <button onClick={() => savePost(post?.id)} className="save-button">
           {isSaved ? (
             <HiBookmark size={58} color="blue" />
@@ -148,19 +177,38 @@ export default function PostPage() {
       </div>
 
       <Link
-        to={`/search?category=${post && post.category}`}
+        to={`/search?category=${post?.category}`}
         className="self-center mt-5"
       >
         <Button color="gray" pill size="xs">
-          {post && post.category}
+          {post?.category}
         </Button>
       </Link>
       <img
-        src={post && post.image}
-        alt={post && post.title}
+        src={post?.image}
+        alt={post?.title}
         className="mt-10 p-3 max-h-[600px] w-full object-cover"
       />
       <div className="flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">
+        <button
+          type="button"
+          onClick={() => handleLikeClick(post.id)}
+          className={` flex items-center gap-2 text-gray-400 hover:text-red-300 ${
+            isLiked && "!text-red-500"
+          }`}
+        >
+          <FaHeart className="text-3xl" />
+          <span className="text-gray-400 text-sm">
+            {/* {post.Numberoflikes > 0 &&
+              post.Numberoflikes +
+                " " +
+                (post.Numberoflikes === 1 ? "like" : "likes")} */}
+            { likes > 0 && likes + " " + (likes === 1
+              ? `like`
+              : `likes`)}
+          </span>
+        </button>
+
         <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
         <span className="italic">
           {post && (post.content.length / 1000).toFixed(0)} mins read
@@ -169,7 +217,7 @@ export default function PostPage() {
 
       <div
         className="p-3 max-w-2xl mx-auto w-full post-content"
-        dangerouslySetInnerHTML={{ __html: post && post.content }}
+        dangerouslySetInnerHTML={{ __html: post?.content }}
       ></div>
       <div>
         <CallToAction />

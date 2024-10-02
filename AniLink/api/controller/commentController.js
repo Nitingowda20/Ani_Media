@@ -132,39 +132,37 @@ export const editComment = async (req, res, next) => {
   }
 };
 
-
 //delete comment
 export const deleteComment = async (req, res, next) => {
-   const commentId = parseInt(req.params.commentId, 10);
-   const userId = parseInt(req.user.id, 10);
+  const commentId = parseInt(req.params.commentId, 10);
+  const userId = parseInt(req.user.id, 10);
 
-   if (!commentId || !userId) {
-     return next(errorHandler(400, "Invalid request parameters"));
-   }
-   if (commentId.userId !== userId && !req.user.isAdmin) {
-     return next(
-       errorHandler(400, "You are not allowed to delete this comment")
-     );
-   }
+  if (!commentId || !userId) {
+    return next(errorHandler(400, "Invalid request parameters"));
+  }
+  if (commentId.userId !== userId && !req.user.isAdmin) {
+    return next(
+      errorHandler(400, "You are not allowed to delete this comment")
+    );
+  }
   try {
     const comment = await prisma.comment.delete({
-      where:{
-        id:commentId
-      }
-    })
-     res.status(200).json({
-       success: true,
-       message: "Comment deleted successfully",
-       comment: comment,
-     });
+      where: {
+        id: commentId,
+      },
+    });
+    res.status(200).json({
+      success: true,
+      message: "Comment deleted successfully",
+      comment: comment,
+    });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
 //getcomments
 export const getComment = async (req, res, next) => {
-
   if (!req.user.isAdmin) {
     return next(
       errorHandler(400, "You are not allowed to get all the comments")
@@ -204,6 +202,6 @@ export const getComment = async (req, res, next) => {
       lastMonthCommets,
     });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};

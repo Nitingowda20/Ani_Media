@@ -146,3 +146,57 @@ export const updatepost = async (req, res, next) => {
     next(error);
   }
 };
+
+//like the post
+export const likePost = async (req, res, next) => {
+  const postId = parseInt(req.params.postId, 10);
+  const userId = parseInt(req.user.id, 10);
+  // Check if postId and userId are valid integers
+  if (isNaN(postId) || isNaN(userId)) {
+    return next(errorHandler(400, "Invalid request parameters"));
+  }
+  try {
+    const post = await prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+      include: {
+        likes: true, // Include the likes relation
+      },
+    });
+    if (!post) {
+      return next(errorHandler(403, "post not found"));
+    }
+    let updatedPost;
+    // const userIndex = post.likes.indexOf(userId);
+    const userIndex = post.likes.map((user) => user.id).indexOf(userId);
+    // console.log(userIndex);
+
+    if (userIndex === -1) {
+      // User has not liked the post yet, so add the userId to the likes array
+      updatedPost = await prisma.post.update({
+        where: { id: postId },
+        data: {
+          Numberoflikes: post.Numberoflikes + 1,
+          likes: {
+            connect: { id: userId }, // Push the userId into the likes array
+          },
+        },
+      });
+    } else {
+      // User has already liked the post, so remove the userId from the likes array
+      updatedPost = await prisma.post.update({
+        where: { id: postId },
+        data: {
+          Numberoflikes: post.Numberoflikes - 1,
+          likes: {
+            disconnect: { id: userId }, // Set the likes array without the userId
+          },
+        },
+      });
+    }
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    next(error);
+  }
+};
