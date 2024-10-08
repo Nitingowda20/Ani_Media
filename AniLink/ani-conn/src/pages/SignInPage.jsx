@@ -10,11 +10,10 @@ import { useDispatch , useSelector } from "react-redux";
 import OAuth from "../components/OAuth";
 
 export default function SignInPage() {
-  
   const [formData, setFormData] = useState({});
   // const [errorMessage, setErrorMessage] = useState(null);
-  // const [loading, setLoading] = useState(false); 
-  const {loading , error:errorMessage} = useSelector(state => state.user)
+  // const [loading, setLoading] = useState(false);
+  const { loading, error: errorMessage } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -23,14 +22,13 @@ export default function SignInPage() {
       ...formData,
       [e.target.id]: e.target.value.trim(),
     });
-  };  
+  };
   // console.log(formData)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.username || !formData.password) {
-      return dispatch(signInFailure("All feilds are Required"))
-
+      return dispatch(signInFailure("All feilds are Required"));
     }
     try {
       // setLoading(true);
@@ -44,45 +42,43 @@ export default function SignInPage() {
 
       const data = await res.json();
       if (data.success === false) {
-        dispatch(signInFailure(data.message))
+        dispatch(signInFailure(data.message));
       }
 
       if (res.ok) {
-        dispatch(signInSuccess(data))
+        dispatch(signInSuccess(data));
         navigate("/");
       }
-    } 
-    catch (error) {
+    } catch (error) {
       // setErrorMessage(error.message);
       // setLoading(false);
-        dispatch(signInFailure(error.message));
-
+      dispatch(signInFailure(error.message));
     }
   };
-
   return (
-    <div className="min-h-screen mt-20">
-      <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-8">
-        {/* for left */}
-        <div className="flex-1 md:items-center">
-          <Link to="/" className=" sm:text-4xl font-bold dark:text-blue-400 ">
-            <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-600 to-red-500 rounded-lg text-white">
+    <div className="min-h-screen flex items-center justify-center bg-gray-900">
+      <div className="flex w-full max-w-5xl mx-auto p-5 md:p-10 bg-gray-800 rounded-lg shadow-lg">
+        {/* Left Side (Description) */}
+        <div className="flex-1 text-white p-6 space-y-5">
+          <Link to="/" className="text-5xl font-bold">
+            <span className="px-3 py-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-red-500 rounded-lg text-white">
               AniLink
-            </span>
+            </span>{" "}
             Blog
           </Link>
-          <p className="text-xl mt-5">
-            Join our anime community to stay updated on the latest reviews,
-            discussions, and insights. Sign in now to start your journey into
-            the world of anime.
+          <p className="text-lg mt-4 leading-relaxed max-h-24 overflow-hidden">
+            Welcome back to your developer's haven! Dive into content that helps
+            you refine your skills and discover new ideas, covering everything
+            from web development to cloud technologies. Let’s explore and grow
+            together!
           </p>
         </div>
 
-        {/* for Right */}
-        <div className="flex-1">
+        {/* Right Side (Login Form) */}
+        <div className="flex-1 bg-gray-700 p-8 rounded-lg shadow-md">
           <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
             <div>
-              <Label value="Your UserName" />
+              <Label value="Your Username" />
               <TextInput
                 type="text"
                 placeholder="Username"
@@ -104,6 +100,7 @@ export default function SignInPage() {
               type="submit"
               disabled={loading}
               outline
+              className="w-full"
             >
               {loading ? (
                 <>
@@ -116,9 +113,9 @@ export default function SignInPage() {
             </Button>
             <OAuth />
           </form>
-          <div className="">
-            <span>Don't have an account?</span>
-            <Link to={"/sign-out"} className="text-blue-500">
+          <div className="mt-5 text-center">
+            <span className="text-gray-400">Don't have an account?</span>
+            <Link to={"/sign-out"} className="text-blue-500 ml-1">
               Sign up
             </Link>
           </div>
@@ -130,5 +127,5 @@ export default function SignInPage() {
         </div>
       </div>
     </div>
-  );   
+  );
 }

@@ -67,12 +67,12 @@ export const signin = async (req, res, next) => {
       where: { username },
     });
     if (!validUser) {
-      return next(errorHandler(404, "Invalild Username"));
+      return next(errorHandler(404, "Invalild Username or Password"));
     }
 
     const validPassword = bcrypt.compareSync(password, validUser.password);
     if (!validPassword) {
-      return next(errorHandler(404, "Invalild Password"));
+      return next(errorHandler(404, "Invalild Username or Password"));
     }
 
     // Generate a JWT token
