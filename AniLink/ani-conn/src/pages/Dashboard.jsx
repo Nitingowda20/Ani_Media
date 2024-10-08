@@ -7,6 +7,7 @@ import DashUser from '../components/DashUser';
 import DashComments from "../components/DashComments";
 import DashboardComp from '../components/DashboardComp';
 import DashSavelist from '../components/DashSavelist';
+import AdminQuizCreator from '../components/AdminQuizCreator';
 
 
 export default function Dashboard() {
@@ -31,6 +32,7 @@ export default function Dashboard() {
       {tab === "comments" && <DashComments />}
       {tab === "dash" && <DashboardComp />}
       {tab === "savedpost" && <DashSavelist />}
+      {tab === "quiz" && <AdminQuizCreator/>}
       {/* </div> */}
     </div>
   );
