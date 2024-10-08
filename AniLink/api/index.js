@@ -7,7 +7,7 @@ import postRoute from './routes/postRoute.js'
 import commentRoute from "./routes/commentRoute.js";
 import savelist from "./routes/savelist.js";
 import likeRoute from "./routes/likeRoute.js";
-
+import quizRoute from "./routes/quizRoute.js";
 
 
 const app = express();
@@ -24,6 +24,8 @@ app.use("/api/post", postRoute);
 app.use("/api/comment", commentRoute);
 app.use("/api/savelist", savelist);
 app.use("/api/like", likeRoute);
+app.use("/api/quiz", quizRoute);
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}!!!!!!!`);

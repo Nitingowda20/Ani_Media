@@ -68,3 +68,18 @@ model Savelist {
   
   @@unique([userId, postId]) // Ensure that a user can save the same post only once
 }
+
+model Quiz {
+  id            Int           @id @default(autoincrement())
+  question      String
+  options       QuizOption[]   // Relation to QuizOption
+  correctAnswer Int            // Index of the correct option in options array
+}
+
+model QuizOption {
+  id      Int    @id @default(autoincrement())
+  text    String
+  quizId  Int
+  quiz    Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+}
+
