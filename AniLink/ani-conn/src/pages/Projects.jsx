@@ -25,20 +25,24 @@ const Project = () => {
   };
 
   const titleStyle = {
+    color: "black",
     fontSize: "2.5rem",
     marginBottom: "20px",
     textAlign: "center",
   };
 
   const topicsInlineStyle = {
-    display: "flex",
+    // display: "flex",
     flexWrap: "wrap",
     justifyContent: "center",
     gap: "20px",
     width: "80%",
+    marginBottom: "10",
   };
 
   const topicCardStyle = {
+    marginBottom: "10px",
+    color: "black",
     backgroundColor: "#fff",
     padding: "20px",
     borderRadius: "10px",
