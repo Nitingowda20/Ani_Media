@@ -3,33 +3,48 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 // Create a new quiz with options
 export const createQuiz = async (req, res) => {
-  const { question, options, correctAnswer } = req.body; // Adjust according to your request body
+  const { question, options, correctAnswer, topicId } = req.body;
 
   try {
     const quiz = await prisma.quiz.create({
       data: {
         question,
-        correctAnswer,
         options: {
-          create: options.map((option) => ({ text: option })),
+          create: options.map((option) => ({
+            text: option,
+          })),
         },
+        correctAnswer,
+        topic: { connect: { id: parseInt(topicId) } }, // Parse topicId to ensure it's an integer
       },
     });
-    return res.status(201).json(quiz);
+    return res.json(quiz);
   } catch (error) {
-    return res.status(500).json({ message: "Error creating quiz", error });
+    console.error("Error creating quiz:", error); // Log full error details
+    return res
+      .status(500)
+      .json({ error: "Failed to create quiz", details: error.message });
   }
 };
 
 // Get all quizzes
 export const getQuizzes = async (req, res) => {
+  const { topicId } = req.query;
+
   try {
     const quizzes = await prisma.quiz.findMany({
-      include: { options: true }, // Include options when fetching quizzes
+      where: {
+        topicId: topicId ? Number(topicId) : undefined, // Filter by topicId if provided
+      },
+      include: {
+        options: true,
+        topic: true, // Include topic information if needed
+      },
     });
-    return res.status(200).json(quizzes);
+    return res.json({ quizzes });
   } catch (error) {
-    return res.status(500).json({ message: "Error fetching quizzes", error });
+    console.error("Error fetching quizzes:", error);
+    return res.status(500).json({ error: "Failed to load quizzes" });
   }
 };
 
@@ -83,8 +98,23 @@ export const deleteQuiz = async (req, res) => {
     await prisma.quiz.delete({
       where: { id: Number(id) },
     });
-    return res.status(204).json({ message: "Quiz is deleted"}); // No content
+    return res.status(204).json({ message: "Quiz is deleted" }); // No content
   } catch (error) {
     return res.status(500).json({ message: "Error deleting quiz", error });
+  }
+};
+//quizbytopic
+export const getQuizzesByTopic = async (req, res) => {
+  const { topicId } = req.params;
+
+  try {
+    // Ensure topicId is a number if using it as a number
+    const quizzes = await prisma.quiz.findMany({
+      where: { topicId: Number(topicId) }, // Assuming topicId is stored as a number in the database
+    });
+    return res.status(200).json(quizzes);
+  } catch (error) {
+    console.error("Error fetching quizzes:", error);
+    return res.status(500).json({ error: "Failed to fetch quizzes" });
   }
 };
