@@ -87,8 +87,8 @@ export default function HeaderSec() {
         <Navbar.Link active={path === "/"} as={"div"}>
           <Link to={"/"}>Home</Link>
         </Navbar.Link>
-        <Navbar.Link active={path === "/project"} as={"div"}>
-          <Link to={"/project"}>Profile</Link>
+        <Navbar.Link active={path === "/quizz"} as={"div"}>
+          <Link to={"/quizz"}>Quizzes</Link>
         </Navbar.Link>
         <Navbar.Link active={path === "/about"} as={"div"}>
           <Link to={"/about"}>About</Link>
