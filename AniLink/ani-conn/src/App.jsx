@@ -14,6 +14,7 @@ import UpdatePost from "./pages/UpdatePost";
 import PostPage from "./pages/PostPage";
 import ScrollToTop from "./components/ScrollToTop";
 import Search from "./pages/Search";
+import QuizzesPage from "./components/QuizzesPage";
 
 export default function App() {
   return (
@@ -29,7 +30,10 @@ export default function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />}></Route>
         </Route>
-        <Route path="/project" element={<Projects />}></Route>
+        <Route>
+          <Route path="/quizz" element={<Projects />} />
+          <Route path="/quizzes/:topicId" element={<QuizzesPage />} />
+        </Route>
         <Route path="/create-post" element={<CreatePost />}></Route>
         <Route path="/update-post/:postId" element={<UpdatePost />}></Route>
         <Route path="/post/:postSlug" element={<PostPage />}></Route>

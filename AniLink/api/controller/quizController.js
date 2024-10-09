@@ -106,15 +106,22 @@ export const deleteQuiz = async (req, res) => {
 //quizbytopic
 export const getQuizzesByTopic = async (req, res) => {
   const { topicId } = req.params;
-
   try {
-    // Ensure topicId is a number if using it as a number
+    // Fetch quizzes along with their options for a specific topic
     const quizzes = await prisma.quiz.findMany({
-      where: { topicId: Number(topicId) }, // Assuming topicId is stored as a number in the database
+      where: {
+        topicId: Number(topicId), // Ensure topicId is treated as a number if necessary
+      },
+      include: {
+        options: true, // Include related options
+      },
     });
-    return res.status(200).json(quizzes);
+
+    res.json(quizzes);
   } catch (error) {
     console.error("Error fetching quizzes:", error);
-    return res.status(500).json({ error: "Failed to fetch quizzes" });
+    res.status(500).json({ message: "Internal Server Error" });
+  } finally {
+    await prisma.$disconnect(); // Disconnect Prisma client after the request
   }
 };

@@ -1,74 +1,73 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 
-export default function Projects() {
-    const [question, setQuestion] = useState("");
-    const [options, setOptions] = useState(["", "", "", ""]);
-    const [correctAnswer, setCorrectAnswer] = useState(0);
+const Project = () => {
+  const [topics, setTopics] = useState([]);
+  const navigate = useNavigate(); // Get the navigate function
 
-    const handleOptionChange = (index, value) => {
-      const updatedOptions = [...options];
-      updatedOptions[index] = value;
-      setOptions(updatedOptions);
+  useEffect(() => {
+    const fetchTopics = async () => {
+      const response = await fetch("/api/topic/topics"); // Replace with your actual API endpoint
+      const data = await response.json();
+      setTopics(data);
     };
 
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      const quizData = { question, options, correctAnswer };
-      try {
-        const res = await fetch(`/api/quiz/getquizzes`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        });
-        alert("Quiz created successfully!");
-        setQuestion("");
-        setOptions(["", "", "", ""]);
-        setCorrectAnswer(0);
-      } catch (error) {
-        console.error("Failed to create quiz", error);
-      }
-    };
+    fetchTopics();
+  }, []);
 
-   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Question:</label>
-        <input
-          type="text"
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        {options.map((option, index) => (
-          <div key={index}>
-            <label>Option {index + 1}:</label>
-            <input
-              type="text"
-              value={option}
-              onChange={(e) => handleOptionChange(index, e.target.value)}
-              required
-            />
+  const containerStyle = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100vh",
+    backgroundColor: "#f5f5f5",
+  };
+
+  const titleStyle = {
+    fontSize: "2.5rem",
+    marginBottom: "20px",
+    textAlign: "center",
+  };
+
+  const topicsInlineStyle = {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    gap: "20px",
+    width: "80%",
+  };
+
+  const topicCardStyle = {
+    backgroundColor: "#fff",
+    padding: "20px",
+    borderRadius: "10px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    textAlign: "center",
+    transition: "transform 0.2s, box-shadow 0.2s",
+    cursor: "pointer",
+  };
+
+  const handleTopicClick = (topicId) => {
+    navigate(`/quizzes/${topicId}`); // Navigate to the QuizzesPage with the selected topic ID
+  };
+
+  return (
+    <div style={containerStyle}>
+      <h1 style={titleStyle}>Available Topics</h1>
+      <div style={topicsInlineStyle}>
+        {topics.map((topic) => (
+          <div
+            key={topic.id}
+            style={topicCardStyle}
+            onClick={() => handleTopicClick(topic.id)} // Handle topic click
+          >
+            <h2>{topic.name}</h2>
           </div>
         ))}
       </div>
-      <div>
-        <label>Correct Answer Index:</label>
-        <input
-          type="number"
-          value={correctAnswer}
-          onChange={(e) => setCorrectAnswer(parseInt(e.target.value))}
-          min="0"
-          max={options.length - 1}
-          required
-        />
-      </div>
-      <button type="submit">Create Quiz</button>
-    </form>
+    </div>
   );
 };
 
-
+export default Project;

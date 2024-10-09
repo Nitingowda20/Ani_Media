@@ -44,36 +44,104 @@ body{
 .quiz-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    /* Align items to the left */
+    margin: 20px;
+    /* Adjust margin as needed */
 }
 
 .options-container {
     display: flex;
-    gap: 1rem;
     flex-wrap: wrap;
+    /* Allow wrapping of options */
+    gap: 25px;
+    /* Space between options */
+    width: 50%;
+    /* Use full width */
 }
 
 .option-box {
-    padding: 1rem;
-    background-color: #f0f0f0;
-    border: 2px solid #ccc;
+    flex: 1 0 48%;
+    /* Allow 2 items in a row with some space */
+    padding: 20px;
+    /* Padding for the box */
+    background-color: #007bff;
+    /* KBC blue color */
+    border: none;
+    /* Remove border */
     border-radius: 8px;
+    /* Rounded corners */
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    /* Pointer cursor */
+    transition: background-color 0.3s ease, transform 0.2s;
+    /* Transition for hover effect */
+    color: white;
+    /* White text */
+    font-size: 1.2rem;
+    /* Increase font size */
+    text-align: center;
+    /* Center text */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Shadow for depth */
+}
+
+.option-box:hover {
+    background-color: #0056b3;
+    /* Darker blue on hover */
+    transform: scale(1.05);
+    /* Slightly increase size on hover */
 }
 
 .option-box.correct {
     background-color: #4caf50;
+    /* Green for correct answer */
     color: white;
+    /* White text for visibility */
 }
 
 .option-box.incorrect {
     background-color: #f44336;
+    /* Red for incorrect answer */
     color: white;
+    /* White text for visibility */
 }
 
 .feedback {
-    margin-top: 1rem;
+    margin-top: 10px;
+    /* Space above feedback */
     font-weight: bold;
+    /* Bold feedback text */
     color: #333;
+    /* Feedback color */
+    font-size: 1.1rem;
+    /* Increase feedback font size */
+}
+
+.topic-selector {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.topics-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    /* Space between buttons */
+}
+
+.topic-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    /* Button color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.topic-button:hover {
+    background-color: #0056b3;
+    /* Darker blue on hover */
 }
