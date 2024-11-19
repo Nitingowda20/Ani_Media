@@ -6,7 +6,7 @@ import {
   signInSuccess,
   signInFailure,
 } from "../redux/user/userSlice";
-import { useDispatch , useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import OAuth from "../components/OAuth";
 
 export default function SignInPage() {
@@ -82,6 +82,7 @@ export default function SignInPage() {
               <TextInput
                 type="text"
                 placeholder="Username"
+                autoComplete="username"
                 id="username"
                 onChange={handleChange}
               />
@@ -91,6 +92,7 @@ export default function SignInPage() {
               <TextInput
                 type="password"
                 placeholder="***********"
+                autoComplete="current-password"
                 id="password"
                 onChange={handleChange}
               />

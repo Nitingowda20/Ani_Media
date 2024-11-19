@@ -126,7 +126,7 @@ export default function PostPage() {
       const data = await res.json();
       if (res.ok) {
         setIsSaved((prevState) => !prevState);
-        console.log(isSaved ? "Post removed from saved" : "Post saved", data);
+        // console.log(isSaved ? "Post removed from saved" : "Post saved", data);
       } else {
         console.error(data.message);
       }

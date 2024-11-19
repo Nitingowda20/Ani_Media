@@ -1,7 +1,7 @@
 import { Alert, Button, Modal, TextInput } from "flowbite-react";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import {Link, useNavigate} from 'react-router-dom'
+import { Link, useNavigate } from "react-router-dom";
 import {
   getDownloadURL,
   getStorage,
@@ -18,13 +18,13 @@ import {
   deleteUserFailure,
   deleteUserStart,
   deleteUserSuccess,
-  signoutSuccess
+  signoutSuccess,
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
-import {HiOutlineExclamationCircle} from'react-icons/hi'
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 export default function DashProfile() {
-  const { currentUser , error , loading} = useSelector((state) => state.user); 
+  const { currentUser, error, loading } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileURL, setImageFileURL] = useState(null);
   const [ImageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -36,7 +36,7 @@ export default function DashProfile() {
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
   const filePickerRef = useRef();
-  const navigate =useNavigate()
+  const navigate = useNavigate();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -52,10 +52,8 @@ export default function DashProfile() {
     }
   }, [imageFile]);
 
-
   const uploadImage = async () => {
-
-    setImageFileUploading(true)
+    setImageFileUploading(true);
     setImageFileUploadError(null);
 
     const storage = getStorage(app);
@@ -80,11 +78,11 @@ export default function DashProfile() {
         setImageFileURL(null);
         setImageFileUploading(false);
       },
-      async() => {
+      async () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImageFileURL(downloadURL);
           setFormData({ ...formData, profilePicture: downloadURL });
-            setImageFileUploading(false);
+          setImageFileUploading(false);
         });
       }
     );
@@ -93,15 +91,12 @@ export default function DashProfile() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
-     
 
-  
   const handleSubmit = async (e) => {
-    e.preventDefault();  
-    setUpdateUserSuccess(null)
-    setUpdateUserError(null) 
-      
-    
+    e.preventDefault();
+    setUpdateUserSuccess(null);
+    setUpdateUserError(null);
+
     if (!currentUser || !currentUser.id) {
       console.log("User ID is undefined or currentUser is not set.");
       return;
@@ -110,9 +105,9 @@ export default function DashProfile() {
       setUpdateUserError("No changes made");
       return;
     }
-    if(ImageFileUploading){
+    if (ImageFileUploading) {
       setUpdateUserError("Please wait for image to upload");
-      return
+      return;
     }
     try {
       dispatch(updateStart());
@@ -128,40 +123,37 @@ export default function DashProfile() {
       const data = await res.json();
       if (!res.ok) {
         dispatch(updateFailure(data.message));
-        setUpdateUserError(data.message)
-      } 
-      else {
-        dispatch(updateSuccess(data)); 
-        setUpdateUserSuccess("User's profile updated successfully")     
+        setUpdateUserError(data.message);
+      } else {
+        dispatch(updateSuccess(data));
+        setUpdateUserSuccess("User's profile updated successfully");
       }
-
     } catch (error) {
       dispatch(updateFailure(error.message));
-      setUpdateUserError(error.message);     
-
-      }
+      setUpdateUserError(error.message);
+    }
   };
-//Deleting User in UI
-  const handleDeleteUser=async()=>{
-      setShowModal(false)
-      try {
-        dispatch(deleteUserStart())
-        const userId = parseInt(currentUser.id, 10);
-        const res = await fetch(`/api/user/delete/${userId}`, {
-          method: "DELETE",
-        });
-        const data = await res.json();
-        if (!res.ok) {
-          dispatch(deleteUserFailure(data.message));
-          setUpdateUserError(data.message);
-        } else {
-          dispatch(deleteUserSuccess(data));
-          setUpdateUserSuccess("User's profile deleted successfully");
-        }
-      } catch (error) {
-        dispatch(deleteUserFailure(error.message))
+  //Deleting User in UI
+  const handleDeleteUser = async () => {
+    setShowModal(false);
+    try {
+      dispatch(deleteUserStart());
+      const userId = parseInt(currentUser.id, 10);
+      const res = await fetch(`/api/user/delete/${userId}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        dispatch(deleteUserFailure(data.message));
+        setUpdateUserError(data.message);
+      } else {
+        dispatch(deleteUserSuccess(data));
+        setUpdateUserSuccess("User's profile deleted successfully");
       }
-  }
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
+    }
+  };
 
   //Signout
   const handleSignOut = async () => {
@@ -173,7 +165,7 @@ export default function DashProfile() {
       const data = await res.json();
       if (!res.ok) {
         console.log(data.message);
-        navigate('/sign-in')
+        navigate("/sign-in");
       } else {
         dispatch(signoutSuccess());
       }
@@ -235,6 +227,7 @@ export default function DashProfile() {
           type="text"
           id="username"
           placeholder="name"
+          autoComplete="username"
           defaultValue={currentUser.username}
           onChange={handleChange}
         />
@@ -242,6 +235,7 @@ export default function DashProfile() {
           type="email"
           id="email"
           placeholder="email"
+          autoComplete="email"
           defaultValue={currentUser.email}
           onChange={handleChange}
         />
@@ -249,23 +243,28 @@ export default function DashProfile() {
           type="password"
           id="password"
           placeholder="*********"
+          autoComplete="current-password"
           onChange={handleChange}
         />
-        <Button type="submit" gradientDuoTone="purpleToBlue" outline disabled={loading || ImageFileUploading}>
-          {loading ? 'Loading..' : " Update"}
+        <Button
+          type="submit"
+          gradientDuoTone="purpleToBlue"
+          outline
+          disabled={loading || ImageFileUploading}
+        >
+          {loading ? "Loading.." : " Update"}
         </Button>
-        {currentUser.isAdmin &&(
-          <Link to={'/create-post'}>
+        {currentUser.isAdmin && (
+          <Link to={"/create-post"}>
             <Button
-            type="button"
-            gradientDuoTone='purpleToPink'
-            className="w-full"
+              type="button"
+              gradientDuoTone="purpleToPink"
+              className="w-full"
             >
               Create a Post
             </Button>
           </Link>
-        ) }
-
+        )}
       </form>
       <div className=" flex justify-between text-red-500 mt-5">
         <span onClick={() => setShowModal(true)} className="cursor-pointer">

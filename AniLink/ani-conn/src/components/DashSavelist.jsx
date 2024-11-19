@@ -38,7 +38,7 @@ export default function DashSavelist() {
           throw new Error("Failed to fetch saved posts");
         }
         const data = await res.json();
-        console.log("Fetched saved posts:", data);
+        // console.log("Fetched saved posts:", data);
         const Posts = data.savedPosts.map((savedPost) => savedPost.post);
         setSavedPosts(Posts); // Assuming the API returns saved posts in this format
       } catch (error) {
