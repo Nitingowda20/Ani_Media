@@ -29,6 +29,12 @@ export default function DashSavelist() {
           `/api/savelist/getSavedPosts?userId=${currentUser.id}`
         );
         if (!res.ok) {
+          if (res.status === 404) {
+            // Easily handle no saved posts scenario
+            console.warn("No saved posts found.");
+            setSavedPosts([]); // Set an empty array
+            return;
+          }
           throw new Error("Failed to fetch saved posts");
         }
         const data = await res.json();
@@ -36,7 +42,7 @@ export default function DashSavelist() {
         const Posts = data.savedPosts.map((savedPost) => savedPost.post);
         setSavedPosts(Posts); // Assuming the API returns saved posts in this format
       } catch (error) {
-        console.error("Error fetching saved posts:", error);
+        console.log("Error fetching saved posts:", error);
       } finally {
         setLoading(false);
       }

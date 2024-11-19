@@ -8,18 +8,18 @@ export default function AdminQuizCreator() {
   const [topicId, setTopicId] = useState(""); // State for selected topic
   const [topics, setTopics] = useState([]); // State for topics
 
-   useEffect(() => {
-     const fetchTopics = async () => {
-       try {
-         const response = await fetch("/api/topic/topics"); // Endpoint to fetch topics
-         const data = await response.json();
-         setTopics(data); // Set topics in state
-       } catch (error) {
-         console.error("Failed to fetch topics:", error);
-       }
-     };
-     fetchTopics();
-   }, []);
+  useEffect(() => {
+    const fetchTopics = async () => {
+      try {
+        const response = await fetch("/api/topic/topics"); // Endpoint to fetch topics
+        const data = await response.json();
+        setTopics(data); // Set topics in state
+      } catch (error) {
+        console.error("Failed to fetch topics:", error);
+      }
+    };
+    fetchTopics();
+  }, []);
   const handleOptionChange = (index, value) => {
     const updatedOptions = [...options];
     updatedOptions[index] = value;
@@ -39,18 +39,18 @@ export default function AdminQuizCreator() {
         body: JSON.stringify(quizData),
       });
       if (!res.ok) {
-      // Parse response error only if available
-      const errorData = await res.json().catch(() => null);
-      const errorMessage = errorData?.error || "Failed to create quiz";
-      alert(errorMessage);
-      return;
-    }
+        // Parse response error only if available
+        const errorData = await res.json().catch(() => null);
+        const errorMessage = errorData?.error || "Failed to create quiz";
+        alert(errorMessage);
+        return;
+      }
       const data = await res.json();
-        alert("Quiz created successfully!");
-        setQuestion("");
-        setOptions(["", "", "", ""]);
-        setCorrectAnswer(1);
-        setTopicId(""); 
+      alert("Quiz created successfully!");
+      setQuestion("");
+      setOptions(["", "", "", ""]);
+      setCorrectAnswer(1);
+      setTopicId("");
     } catch (error) {
       console.error("Failed to create quiz", error);
     }
@@ -82,7 +82,7 @@ export default function AdminQuizCreator() {
           />
         </div>
         <div className="mb-3">
-          <h1 className="size-5">Options: </h1>
+          <h1 className="size-18">Options: </h1>
           <br />
           {options.map((option, index) => (
             <div key={index} className="mb-4">
@@ -110,7 +110,7 @@ export default function AdminQuizCreator() {
             value={topicId}
             onChange={(e) => setTopicId(e.target.value)}
             required
-            style={{ color: "black", fontWeight: "bold" , width :"20%" }}
+            style={{ color: "black", fontWeight: "bold", width: "20%" }}
           >
             <option value="">Select a topic</option> {/* Default option */}
             {topics.map((topic) => (

@@ -58,20 +58,17 @@ export const getSavedPosts = async (req, res, next) => {
       include: { post: true }, // Include post data
     });
     if (savedPosts.length === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "No saved posts found" });
+      return res.status(200).json({ success: true, savedPosts: [] }); // Return an empty array
     }
     res.status(200).json({
       success: true,
-      savedPosts: savedPosts, 
+      savedPosts: savedPosts,
     });
   } catch (error) {
     console.error("Error fetching saved posts:", error); // Log the actual error
     next(errorHandler(500, "Failed to fetch saved posts"));
   }
 };
-
 
 //check if post is saved by a particular user
 export const checkSavedPost = async (req, res) => {

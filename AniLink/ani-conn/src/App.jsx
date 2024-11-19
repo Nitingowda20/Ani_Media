@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
@@ -18,12 +18,29 @@ import QuizzesPage from "./components/QuizzesPage";
 import CodeEditor from "./components/Code-Compiler/CodeEditor";
 import { Box } from "@chakra-ui/react";
 
-export default function App() {
+const App = () => {
+  const location = useLocation();
+
+  // Check if the current path is "/editor"
+  const isEditorPage = location.pathname === "/editor";
+
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      {/* Example Chakra Box with CodeEditor */}
+    <>
+      {!isEditorPage && <HeaderSec />}
       <Routes>
+        {/* public routes */}
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/sign-in" element={<SignInPage />}></Route>
+        <Route path="/sign-out" element={<SignOutPage />}></Route>
+        <Route path="/about" element={<AboutPage />}></Route>
+        <Route path="/search" element={<Search />}></Route>
+
+        {/* private routes */}
+        <Route element={<PrivateRoute />}>
+          <Route path="/dashboard" element={<Dashboard />}></Route>
+        </Route>
+
+        {/* CodeEditor route */}
         <Route
           path="/editor"
           element={
@@ -32,21 +49,6 @@ export default function App() {
             </Box>
           }
         />
-      </Routes>
-      <HeaderSec />
-      <Routes>
-        {/* public routes */}
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/sign-in" element={<SignInPage />}></Route>
-        <Route path="/sign-out" element={<SignOutPage />}></Route>
-        <Route path="/about" element={<AboutPage />}></Route>
-        <Route path="/search" element={<Search />}></Route>
-        {/* <Route path="/code-editor" element={<CodeEditor />}></Route> */}
-
-        {/* private routes */}
-        <Route element={<PrivateRoute />}>
-          <Route path="/dashboard" element={<Dashboard />}></Route>
-        </Route>
 
         {/* nested routes */}
         <Route>
@@ -58,13 +60,19 @@ export default function App() {
         <Route path="/create-post" element={<CreatePost />}></Route>
         <Route path="/update-post/:postId" element={<UpdatePost />}></Route>
         <Route path="/post/:postSlug" element={<PostPage />}></Route>
-
-        {/* <Box minH="100vh" bg="#0f0a19" color="gray.500" px={6} py={8}>
-          <CodeEditor />
-        </Box> */}
       </Routes>
 
+      {/* Always show FooterSec */}
       <FooterSec />
-    </BrowserRouter>
+    </>
   );
-}
+};
+
+const AppWrapper = () => (
+  <BrowserRouter>
+    <ScrollToTop />
+    <App />
+  </BrowserRouter>
+);
+
+export default AppWrapper;
