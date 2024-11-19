@@ -1,3 +1,4 @@
+// It is for Quizz open page
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 

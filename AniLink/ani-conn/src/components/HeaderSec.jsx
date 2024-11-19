@@ -22,15 +22,15 @@ export default function HeaderSec() {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
-  const [searchTerm , setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(()=>{
-    const urlParams = new URLSearchParams(location.search)
-    const searchTermFromUrl = urlParams.get('searchTerm')
-    if(searchTermFromUrl){
-      setSearchTerm(searchTermFromUrl)
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
     }
-  },[location.search])
+  }, [location.search]);
 
   //Signout
   const handleSignOut = async () => {
@@ -50,13 +50,25 @@ export default function HeaderSec() {
     }
   };
 
-  const handleSubmit = async(e)=>{
-    e.preventDefault()
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const urlParams = new URLSearchParams(location.search);
-    urlParams.set('searchTerm' , searchTerm)
-    const searchQuery = urlParams.toString()
-    Navigate(`/search?${searchQuery}`)
+    urlParams.set("searchTerm", searchTerm);
+    const searchQuery = urlParams.toString();
+    Navigate(`/search?${searchQuery}`);
+  };
+  const openInNewTab = (url) => {
+  const newTab = window.open(url, "_blank");
+
+  // Ensure the new tab's content is fully loaded before changing the title
+  if (newTab) {
+    newTab.onload = () => {
+      newTab.document.title = "Blog-code-compiler"; // Set the new tab title after it has loaded
+    };
   }
+};
+
+
   return (
     <Navbar className="border-b-8 ">
       <Link
@@ -75,7 +87,7 @@ export default function HeaderSec() {
           rightIcon={AiOutlineSearch}
           className="hidden lg:inline"
           value={searchTerm}
-          onChange={(e)=>setSearchTerm(e.target.value)}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
       </form>
 
@@ -92,6 +104,14 @@ export default function HeaderSec() {
         </Navbar.Link>
         <Navbar.Link active={path === "/about"} as={"div"}>
           <Link to={"/about"}>About</Link>
+        </Navbar.Link>
+        <Navbar.Link active={path === "/editor"} as={"div"}>
+          <span
+            style={{ cursor: "pointer" }}
+            onClick={() => openInNewTab("/editor")}
+          >
+            Code-Editor
+          </span>
         </Navbar.Link>
       </NavbarCollapse>
 
@@ -125,7 +145,7 @@ export default function HeaderSec() {
             </Link>
             <DropdownDivider />
             <Link to={"/sign-in"}>
-            <Dropdown.Item onClick={handleSignOut}>Sign Out</Dropdown.Item>
+              <Dropdown.Item onClick={handleSignOut}>Sign Out</Dropdown.Item>
             </Link>
           </Dropdown>
         ) : (
