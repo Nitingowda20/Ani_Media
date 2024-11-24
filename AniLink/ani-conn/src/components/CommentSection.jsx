@@ -33,6 +33,7 @@ export default function CommentSection({ postId }) {
     getComments();
   }, [postId]);
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!currentUser) {
@@ -58,7 +59,7 @@ export default function CommentSection({ postId }) {
         const data = await res.json();
         setComment("");
         setCommentError(null);
-        setComments((prevComments) => [data, ...prevComments]);
+        setComments((prevComments) => [data?.comment, ...prevComments]);
       } else {
         const errorData = await res.json();
         setCommentError(errorData.message); // Show error message from API
