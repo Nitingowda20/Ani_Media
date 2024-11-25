@@ -52,9 +52,8 @@ export default function CreatePost() {
         }
       );
     } catch (error) {
-      setImageUploadError("Image upload failed"); +
-      
-      setImageUploadProgress(null);
+      setImageUploadError("Image upload failed");
+      +setImageUploadProgress(null);
       console.log(error);
     }
   };
@@ -114,6 +113,11 @@ export default function CreatePost() {
             <option value="javascript">JavaScript</option>
             <option value="reactjs">React.js</option>
             <option value="nextjs">Next.js</option>
+            <option value="Python">Python</option>
+            <option value="Java">Java</option>
+            <option value="Typescript">Typescript</option>
+            <option value="DSA">DSA</option>
+            <option value="C++">C++</option>
           </Select>
         </div>
         <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">

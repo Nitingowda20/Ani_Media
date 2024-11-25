@@ -14,6 +14,7 @@ import { FaMoon, FaSun } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme } from "../redux/theme/themeSlice";
 import { signoutSuccess } from "../redux/user/userSlice";
+import { HiDocumentText } from "react-icons/hi";
 
 export default function HeaderSec() {
   const path = useLocation().pathname;
@@ -112,6 +113,12 @@ export default function HeaderSec() {
             Code-Editor
           </span>
         </Navbar.Link>
+        
+        {currentUser.isAdmin && (
+          <Navbar.Link active={path === "/create-post"} as={"div"}>
+            <Link to={"/create-post"}>Post</Link>
+          </Navbar.Link>
+        )}
       </NavbarCollapse>
 
       <div className="flex gap-2 mid:order-2">

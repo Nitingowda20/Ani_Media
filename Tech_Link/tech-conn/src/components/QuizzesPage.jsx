@@ -18,9 +18,11 @@ const QuizzesPage = () => {
 
   return (
     <div className="min-h-screen" style={{ padding: "20px" }}>
-      <h1>Quizzes for Topic {topicId}</h1>
+      <h1 style={{ fontSize: "28px"}}>Quizzes for Selected Topic :</h1>
       {quizzes.length > 0 ? (
-        quizzes.map((quiz) => <UserQuiz key={quiz.id} quiz={quiz} />)
+        quizzes.map((quiz , index) => (
+          <UserQuiz key={quiz.id} quiz={quiz} questionNumber={index + 1} />
+        ))
       ) : (
         <p>No quizzes available for this topic.</p>
       )}

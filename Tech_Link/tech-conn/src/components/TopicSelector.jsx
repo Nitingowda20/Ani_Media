@@ -1,7 +1,16 @@
 import React from "react";
 
 const TopicSelector = ({ onSelect }) => {
-  const topics = ["JavaScript", "React", "Next.js"]; // Add more topics as needed
+  const topics = [
+    "JavaScript",
+    "React",
+    "Next.js",
+    "Python",
+    "Java",
+    "Typescript",
+    "DSA",
+    "C++",
+  ]; // Add more topics as needed
 
   return (
     <div className="topic-selector m-7">
