@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import {
@@ -11,11 +11,15 @@ import OAuth from "../components/OAuth";
 
 export default function SignInPage() {
   const [formData, setFormData] = useState({});
-  // const [errorMessage, setErrorMessage] = useState(null);
-  // const [loading, setLoading] = useState(false);
+  const [formVisible, setFormVisible] = useState(false);
   const { loading, error: errorMessage } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Trigger the animation when the component mounts
+    setFormVisible(true);
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -23,21 +27,18 @@ export default function SignInPage() {
       [e.target.id]: e.target.value.trim(),
     });
   };
-  // console.log(formData)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.username || !formData.password) {
-      return dispatch(signInFailure("All feilds are Required"));
+      return dispatch(signInFailure("All fields are required"));
     }
     try {
-      // setLoading(true);
-      // setErrorMessage(null);
       dispatch(signInStart());
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData), // formData is your JSON object
+        body: JSON.stringify(formData),
       });
 
       const data = await res.json();
@@ -50,11 +51,10 @@ export default function SignInPage() {
         navigate("/");
       }
     } catch (error) {
-      // setErrorMessage(error.message);
-      // setLoading(false);
       dispatch(signInFailure(error.message));
     }
   };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900">
       <div className="flex w-full max-w-5xl mx-auto p-5 md:p-10 bg-gray-800 rounded-lg shadow-lg">
@@ -62,7 +62,7 @@ export default function SignInPage() {
         <div className="flex-1 text-white p-6 space-y-5">
           <Link to="/" className="text-5xl font-bold">
             <span className="px-3 py-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-red-500 rounded-lg text-white">
-              AniLink
+              Techie
             </span>{" "}
             Blog
           </Link>
@@ -75,7 +75,11 @@ export default function SignInPage() {
         </div>
 
         {/* Right Side (Login Form) */}
-        <div className="flex-1 bg-gray-700 p-8 rounded-lg shadow-md">
+        <div
+          className={`flex-1 bg-gray-700 p-8 rounded-lg shadow-md transform transition-transform duration-700 ease-out ${
+            formVisible ? "scale-100 opacity-100" : "scale-75 opacity-0"
+          }`}
+        >
           <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
             <div>
               <Label value="Your Username" />

@@ -1,16 +1,22 @@
-// It is for Quizz open page
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
+import { useNavigate } from "react-router-dom";
 
 const Project = () => {
   const [topics, setTopics] = useState([]);
-  const navigate = useNavigate(); // Get the navigate function
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTopics = async () => {
-      const response = await fetch("/api/topic/topics"); // Replace with your actual API endpoint
-      const data = await response.json();
-      setTopics(data);
+      try {
+        const response = await fetch("/api/topic/topics"); // Replace with your actual API endpoint
+        const data = await response.json();
+        setTopics(data);
+      } catch (error) {
+        console.error("Failed to fetch topics:", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchTopics();
@@ -21,28 +27,30 @@ const Project = () => {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    height: "100vh",
-    backgroundColor: "#f5f5f5",
+    minHeight: "100vh",
+    backgroundColor: "#08024c47",
+    padding: "20px",
+    color: "#333",
   };
 
   const titleStyle = {
-    color: "black",
     fontSize: "2.5rem",
     marginBottom: "20px",
     textAlign: "center",
+    color: "white",
   };
 
   const topicsInlineStyle = {
-    // display: "flex",
+    display: "flex",
     flexWrap: "wrap",
     justifyContent: "center",
     gap: "20px",
-    width: "80%",
-    marginBottom: "10",
+    width: "100%",
+    maxWidth: "1200px",
+    fontSize: "25px",
   };
 
   const topicCardStyle = {
-    marginBottom: "10px",
     color: "black",
     backgroundColor: "#fff",
     padding: "20px",
@@ -51,26 +59,49 @@ const Project = () => {
     textAlign: "center",
     transition: "transform 0.2s, box-shadow 0.2s",
     cursor: "pointer",
+    width: "250px",
+    height: "150px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  };
+
+  const topicCardHoverStyle = {
+    transform: "scale(1.05)",
+    boxShadow: "0 6px 12px rgba(0, 0, 0, 0.2)",
   };
 
   const handleTopicClick = (topicId) => {
-    navigate(`/quizzes/${topicId}`); // Navigate to the QuizzesPage with the selected topic ID
+    navigate(`/quizzes/${topicId}`);
   };
 
   return (
     <div style={containerStyle}>
       <h1 style={titleStyle}>Available Topics</h1>
-      <div style={topicsInlineStyle}>
-        {topics.map((topic) => (
-          <div
-            key={topic.id}
-            style={topicCardStyle}
-            onClick={() => handleTopicClick(topic.id)} // Handle topic click
-          >
-            <h2>{topic.name}</h2>
-          </div>
-        ))}
-      </div>
+      {loading ? (
+        <p>Loading topics...</p>
+      ) : (
+        <div style={topicsInlineStyle}>
+          {topics.map((topic) => (
+            <div
+              key={topic.id}
+              style={topicCardStyle}
+              onMouseEnter={(e) =>
+                Object.assign(e.target.style, topicCardHoverStyle)
+              }
+              onMouseLeave={(e) =>
+                Object.assign(e.target.style, {
+                  transform: "scale(1)",
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                })
+              }
+              onClick={() => handleTopicClick(topic.id)}
+            >
+              <h2>{topic.name}</h2>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

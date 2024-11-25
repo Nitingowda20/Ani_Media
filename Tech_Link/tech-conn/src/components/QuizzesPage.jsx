@@ -17,8 +17,8 @@ const QuizzesPage = () => {
   }, [topicId]);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Quizzes for Topic ID {topicId}</h1>
+    <div className="min-h-screen" style={{ padding: "20px" }}>
+      <h1>Quizzes for Topic {topicId}</h1>
       {quizzes.length > 0 ? (
         quizzes.map((quiz) => <UserQuiz key={quiz.id} quiz={quiz} />)
       ) : (

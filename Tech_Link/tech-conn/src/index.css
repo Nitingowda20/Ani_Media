@@ -66,6 +66,8 @@ body{
     padding: 20px;
     /* Padding for the box */
     background-color: #007bff;
+    background-color: #08024c47;
+
     /* KBC blue color */
     border: none;
     /* Remove border */
@@ -144,4 +146,33 @@ body{
 .topic-button:hover {
     background-color: #0056b3;
     /* Darker blue on hover */
+}
+
+/* about animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.delay-0 {
+  animation-delay: 0ms;
+}
+.delay-500 {
+  animation-delay: 500ms;
+}
+.delay-1000 {
+  animation-delay: 1000ms;
+}
+.delay-1500 {
+  animation-delay: 1500ms;
 }

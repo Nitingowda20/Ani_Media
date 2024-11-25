@@ -18,7 +18,7 @@ export default function FooterCom() {
               className="self-center whitespace-nowrap text-xl sm:text-xl font-semibold dark:text-blue-400"
             >
               <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-600 to-red-500 rounded-lg text-white">
-                AniLink
+                Techie
               </span>
               Blog
             </Link>

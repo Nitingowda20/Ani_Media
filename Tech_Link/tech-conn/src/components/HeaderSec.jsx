@@ -58,16 +58,15 @@ export default function HeaderSec() {
     Navigate(`/search?${searchQuery}`);
   };
   const openInNewTab = (url) => {
-  const newTab = window.open(url, "_blank");
+    const newTab = window.open(url, "_blank");
 
-  // Ensure the new tab's content is fully loaded before changing the title
-  if (newTab) {
-    newTab.onload = () => {
-      newTab.document.title = "Blog-code-compiler"; // Set the new tab title after it has loaded
-    };
-  }
-};
-
+    // Ensure the new tab's content is fully loaded before changing the title
+    if (newTab) {
+      newTab.onload = () => {
+        newTab.document.title = "Blog-code-compiler"; // Set the new tab title after it has loaded
+      };
+    }
+  };
 
   return (
     <Navbar className="border-b-8 ">
@@ -76,7 +75,7 @@ export default function HeaderSec() {
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-blue-400"
       >
         <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-600 to-red-500 rounded-lg text-white">
-          AniLink
+          Techie
         </span>
         🍕🍕
       </Link>
