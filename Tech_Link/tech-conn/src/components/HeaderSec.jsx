@@ -114,11 +114,11 @@ export default function HeaderSec() {
           </span>
         </Navbar.Link>
         
-        {currentUser.isAdmin && (
+        {/* {currentUser.isAdmin && (
           <Navbar.Link active={path === "/create-post"} as={"div"}>
             <Link to={"/create-post"}>Post</Link>
           </Navbar.Link>
-        )}
+        )} */}
       </NavbarCollapse>
 
       <div className="flex gap-2 mid:order-2">
