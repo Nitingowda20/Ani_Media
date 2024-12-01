@@ -38,7 +38,7 @@ export default function FooterCom() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Nitin's Blog
+                  Tech-blog
                 </Footer.Link>
               </Footer.LinkGroup>
             </div>
@@ -46,7 +46,7 @@ export default function FooterCom() {
               <Footer.Title title="Follow us" />
               <Footer.LinkGroup col>
                 <Footer.Link
-                  href="https://www.github.com/sahandghavidel"
+                  href="https://github.com/Nitingowda20"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -68,15 +68,20 @@ export default function FooterCom() {
         <div className="w-full sm:flex sm:items-center sm:justify-between">
           <Footer.Copyright
             href="#"
-            by="Nitin's blog"
+            by="Tech-blog"
             year={new Date().getFullYear()}
           />
           <div className="flex gap-6 sm:mt-0 mt-4 sm:justify-center">
-            <Footer.Icon href="#" icon={BsFacebook} />
-            <Footer.Icon href="#" icon={BsInstagram} />
-            <Footer.Icon href="#" icon={BsTwitter} />
-            <Footer.Icon href="#" icon={BsGithub} />
-            <Footer.Icon href="#" icon={BsDribbble} />
+            <Footer.Icon href="https://www.facebook.com/" icon={BsFacebook} />
+            <Footer.Icon
+              href="https://www.instagram.com/accounts/login/"
+              icon={BsInstagram}
+            />
+            <Footer.Icon href="https://x.com/?lang=en" icon={BsTwitter} />
+            <Footer.Icon
+              href="https://github.com/Nitingowda20"
+              icon={BsGithub}
+            />
           </div>
         </div>
       </div>
