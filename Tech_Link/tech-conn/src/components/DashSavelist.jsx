@@ -26,7 +26,7 @@ export default function DashSavelist() {
       setLoading(true);
       try {
         const res = await fetch(
-          `/api/savelist/getSavedPosts?userId=${currentUser.id}`
+          `${import.meta.env.VITE_API_URL}/api/savelist/getSavedPosts?userId=${currentUser.id}`
         );
         if (!res.ok) {
           if (res.status === 404) {
@@ -56,7 +56,7 @@ export default function DashSavelist() {
     const urlParams = new URLSearchParams(location.search);
     urlParams.set("startIndex", startIndex);
     const searchQuery = urlParams.toString();
-    const res = await fetch(`/api/savelist/getSavedPosts?${searchQuery}`);
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/savelist/getSavedPosts?${searchQuery}`);
     if (!res.ok) {
       return;
     }
