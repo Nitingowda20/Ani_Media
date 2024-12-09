@@ -19,7 +19,7 @@ const prisma = new PrismaClient();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors("http://locahost:5174"))
+app.use(cors(""))
 
 app.get('/health', (req, res)=>{
   return res.json("OK")
