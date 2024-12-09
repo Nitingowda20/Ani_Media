@@ -21,6 +21,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors())
 
+app.get('/health', (req, res)=>{
+  return res.json("OK")
+})
+
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoute);
