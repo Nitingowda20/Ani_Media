@@ -27,7 +27,7 @@ export default function UpdatePost() {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await fetch(`/api/post/getpost?postId=${postId}`);
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/getpost?postId=${postId}`);
         const data = await res.json();
 
         if (!res.ok) {
@@ -90,7 +90,7 @@ export default function UpdatePost() {
     // console.log("Form Data being sent:", formData);
     try {
       const res = await fetch(
-        `/api/post/updatepost/${postId}/${currentUser.id}`,
+        `${import.meta.env.VITE_API_URL}/api/post/updatepost/${postId}/${currentUser.id}`,
         {
           method: "PUT",
           headers: {
