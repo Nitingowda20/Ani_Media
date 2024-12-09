@@ -23,7 +23,7 @@ export default function DashboardComp() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch("/api/user/getuser?limit=5");
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/getuser?limit=5`);
         const data = await res.json();
         if (res.ok) {
           setUsers(data.users);
@@ -36,7 +36,7 @@ export default function DashboardComp() {
     };
     const fetchPosts = async () => {
       try {
-        const res = await fetch("/api/post/getpost?limit=5");
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/getpost?limit=5`);
         const data = await res.json();
         if (res.ok) {
           setPosts(data.posts);
@@ -49,7 +49,7 @@ export default function DashboardComp() {
     };
     const fetchComments = async () => {
       try {
-        const res = await fetch("/api/comment/getcomment?limit=5");
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment/getcomment?limit=5`);
         const data = await res.json();
         if (res.ok) {
           setComments(data.comments);
