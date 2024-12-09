@@ -8,7 +8,7 @@ const QuizzesPage = () => {
 
   useEffect(() => {
     const fetchQuizzes = async () => {
-      const response = await fetch(`/api/quiz/getquizzes/${topicId}`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/quiz/getquizzes/${topicId}`);
       const data = await response.json();
       setQuizzes(data);
     };
