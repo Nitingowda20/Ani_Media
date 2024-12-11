@@ -55,12 +55,12 @@ export default function CommentSection({ postId }) {
             "Content-type": "application/json",
             // Authorization: `Bearer ${currentUser.token}`
           },
-          credentials: "include",
           body: JSON.stringify({
             postId: postId,
             content: comment,
             userId: currentUser.id,
           }),
+          credentials: "include",
         }
       );
       if (res.ok) {
@@ -133,7 +133,6 @@ export default function CommentSection({ postId }) {
         {
           method: "DELETE",
           credentials: "include",
-
         }
       );
       if (res.ok) {
