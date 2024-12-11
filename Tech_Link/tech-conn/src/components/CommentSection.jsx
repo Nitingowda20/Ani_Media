@@ -43,6 +43,7 @@ export default function CommentSection({ postId }) {
     if (comment.length > 200) {
       return;
     }
+    console.log('currentuser.token', currentUser?.token)
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment/create`, {
         method: "POST",
@@ -50,6 +51,7 @@ export default function CommentSection({ postId }) {
           "Content-type": "application/json",
           Authorization: `Bearer ${currentUser.token}`
         },
+        credentials: "include",
         body: JSON.stringify({
           postId: postId,
           content: comment,

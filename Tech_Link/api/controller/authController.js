@@ -61,6 +61,7 @@ export const signin = async (req, res, next) => {
   if (!username || !password || username === "" || password === "") {
     next(errorHandler(400, "All feilds are required"));
   }
+  
 
   try {
     const validUser = await prisma.user.findUnique({
@@ -80,12 +81,15 @@ export const signin = async (req, res, next) => {
 
     // Destructure and exclude the password field from the response
     const { password: pass, ...userWithoutPassword } = validUser;
+    
     res
       .status(200)
       .cookie("access_token", token, {
         httpOnly: true,
       })
       .json(userWithoutPassword);
+
+      
   } catch (error) {
     console.error("Error during sign-in:", error);
     return next(errorHandler(500, "An error occurred while signing in"));
