@@ -89,7 +89,7 @@ export default function CommentSection({ postId }) {
         {
           method: "PUT",
           credentials: "include",
-        },
+        }
       );
       if (res.ok) {
         const data = await res.json();
@@ -133,6 +133,7 @@ export default function CommentSection({ postId }) {
         {
           method: "DELETE",
           credentials: "include",
+
         }
       );
       if (res.ok) {

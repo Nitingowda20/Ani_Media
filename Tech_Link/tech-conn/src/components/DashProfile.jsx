@@ -113,13 +113,17 @@ export default function DashProfile() {
       dispatch(updateStart());
       // console.log("Form",formData)
       const userId = parseInt(currentUser.id, 10);
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/update/${userId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/user/update/${userId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+          credentials: "include",
+        }
+      );
       const data = await res.json();
       if (!res.ok) {
         dispatch(updateFailure(data.message));
@@ -139,9 +143,13 @@ export default function DashProfile() {
     try {
       dispatch(deleteUserStart());
       const userId = parseInt(currentUser.id, 10);
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/delete/${userId}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/user/delete/${userId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
       const data = await res.json();
       if (!res.ok) {
         dispatch(deleteUserFailure(data.message));
@@ -158,9 +166,12 @@ export default function DashProfile() {
   //Signout
   const handleSignOut = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/signout`, {
-        method: "POST",
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/user/signout`,
+        {
+          method: "POST",
+        }
+      );
 
       const data = await res.json();
       if (!res.ok) {

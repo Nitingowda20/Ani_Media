@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { FaThumbsUp } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
-export default function Comment({ comment, onLike , onEdit , onDelete }) {
+export default function Comment({ comment, onLike, onEdit, onDelete }) {
   const { currentUser } = useSelector((state) => state.user);
   const [user, setUser] = useState({});
   const [isEditing, setIsEditing] = useState(false);
@@ -14,7 +14,9 @@ export default function Comment({ comment, onLike , onEdit , onDelete }) {
     const getUser = async () => {
       if (!comment.userId) return; // Avoid fetching if userId is not defined
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/${comment.userId}`);
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/user/${comment.userId}`
+        );
         if (res.ok) {
           const data = await res.json();
           setUser(data);
@@ -35,27 +37,30 @@ export default function Comment({ comment, onLike , onEdit , onDelete }) {
     setEditedContent(comment.content);
   };
 
-  const handleSave = async()=>{
+  const handleSave = async () => {
     try {
-      const res = await fetch (`${import.meta.env.VITE_API_URL}/api/comment/editcomment/${comment.id}`,{
-        method:"PUT",
-        headers:{
-          'content-type' : 'application/json',
-          Authorization: `Bearer ${currentUser.token}`
-        },
-        body:JSON.stringify({
-          content:editedContent
-        })
-      })
-      if(res.ok){
-        setIsEditing(false)
-        onEdit(comment , editedContent)
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/comment/editcomment/${comment.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "content-type": "application/json",
+            // Authorization: `Bearer ${currentUser.token}`
+          },
+          body: JSON.stringify({
+            content: editedContent,
+          }),
+          credentials: "include",
+        }
+      );
+      if (res.ok) {
+        setIsEditing(false);
+        onEdit(comment, editedContent);
       }
     } catch (error) {
       console.log(error.message);
-      
     }
-  }
+  };
   return (
     <div className="flex p-4 border-b dark:border-gray-600 text-sm">
       <div className="flex-shrink-0 mr-3">

@@ -24,7 +24,9 @@ export default function PostPage() {
     const fetchPost = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/getpost?slug=${postSlug}`);
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/post/getpost?slug=${postSlug}`
+        );
         const data = await res.json();
         if (!res.ok) {
           setError(true);
@@ -43,7 +45,9 @@ export default function PostPage() {
 
         // Check if the user has liked the post
         const hasLiked = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/like/check?postId=${fetchedPost.id}&userId=${currentUser?.id}`
+          `${import.meta.env.VITE_API_URL}/api/like/check?postId=${
+            fetchedPost.id
+          }&userId=${currentUser?.id}`
         );
         const likeData = await hasLiked.json();
         if (likeData.hasLiked) {
@@ -76,7 +80,9 @@ export default function PostPage() {
   const checkIfPostIsSaved = async (postId, userId) => {
     if (!userId) return false; // If the user is not logged in, return false
     const res = await fetch(
-      `${import.meta.env.VITE_API_URL}/api/savelist/check?postId=${postId}&userId=${userId}`
+      `${
+        import.meta.env.VITE_API_URL
+      }/api/savelist/check?postId=${postId}&userId=${userId}`
     );
     if (!res.ok) {
       console.error("Failed to check saved post:", await res.text());
@@ -89,7 +95,9 @@ export default function PostPage() {
   useEffect(() => {
     const fetchRecentPost = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/getpost?limit=3`);
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/post/getpost?limit=3`
+        );
         const data = await res.json();
         if (res.ok) {
           setRecentPosts(data.posts);
@@ -115,7 +123,9 @@ export default function PostPage() {
       return;
     }
     try {
-      const url = isSaved ? `${import.meta.env.VITE_API_URL}/api/savelist/unsave` : `${import.meta.env.VITE_API_URL}/api/savelist/savepost`;
+      const url = isSaved
+        ? `${import.meta.env.VITE_API_URL}/api/savelist/unsave`
+        : `${import.meta.env.VITE_API_URL}/api/savelist/savepost`;
       const method = isSaved ? "DELETE" : "POST";
       const res = await fetch(url, {
         method: method,
@@ -142,12 +152,16 @@ export default function PostPage() {
     }
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/like/likepost/${post.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/like/likepost/${post.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
 
       const data = await res.json();
       if (res.ok) {
@@ -203,9 +217,7 @@ export default function PostPage() {
               post.Numberoflikes +
                 " " +
                 (post.Numberoflikes === 1 ? "like" : "likes")} */}
-            { likes > 0 && likes + " " + (likes === 1
-              ? `like`
-              : `likes`)}
+            {likes > 0 && likes + " " + (likes === 1 ? `like` : `likes`)}
           </span>
         </button>
 

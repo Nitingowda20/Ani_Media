@@ -13,7 +13,12 @@ export default function DashUser() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/getuser`);
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/user/getuser`,
+          {
+            credentials: "include",
+          }
+        );
         const data = await res.json();
         if (res.ok) {
           setUsers(data.users);

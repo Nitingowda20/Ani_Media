@@ -23,7 +23,12 @@ export default function DashboardComp() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/getuser?limit=5`);
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/user/getuser?limit=5`,
+          {
+            credentials: "include",
+          }
+        );
         const data = await res.json();
         if (res.ok) {
           setUsers(data.users);
@@ -36,7 +41,9 @@ export default function DashboardComp() {
     };
     const fetchPosts = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/getpost?limit=5`);
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/post/getpost?limit=5`
+        );
         const data = await res.json();
         if (res.ok) {
           setPosts(data.posts);
@@ -49,7 +56,12 @@ export default function DashboardComp() {
     };
     const fetchComments = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment/getcomment?limit=5`);
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/comment/getcomment?limit=5`,
+          {
+            credentials: "include",
+          }
+        );
         const data = await res.json();
         if (res.ok) {
           setComments(data.comments);
@@ -120,7 +132,7 @@ export default function DashboardComp() {
           </div>
         </div>
       </div>
-      
+
       <div className="flex flex-wrap gap-4 py-3 mx-auto justify-center">
         <div className="flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800">
           <div className="flex justify-between  p-3 text-sm font-semibold">

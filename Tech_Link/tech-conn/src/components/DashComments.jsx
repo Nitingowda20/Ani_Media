@@ -12,7 +12,12 @@ export default function DashComments() {
   useEffect(() => {
     const fetchComment = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment/getcomment`);
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/comment/getcomment`,
+          {
+            credentials: "include",
+          }
+        );
         const data = await res.json();
         if (res.ok) {
           setComments(data.comments);
@@ -32,7 +37,14 @@ export default function DashComments() {
   const handleShowMore = async () => {
     const startIndex = comments.length;
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment/getcomment?startIndex=${startIndex}`);
+      const res = await fetch(
+        `${
+          import.meta.env.VITE_API_URL
+        }/api/comment/getcomment?startIndex=${startIndex}`,
+        {
+          credentials: "include",
+        }
+      );
       const data = await res.json();
       if (res.ok) {
         setComments((prev) => [...prev, ...data.comments]);
@@ -48,12 +60,20 @@ export default function DashComments() {
   const handleDeleteComment = async () => {
     setShowModal(false);
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment/deletecomment/${commentIdToDelete}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `${
+          import.meta.env.VITE_API_URL
+        }/api/comment/deletecomment/${commentIdToDelete}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
       const data = await res.json();
       if (res.ok) {
-        setComments((prev) => prev.filter((comment) => comment.id !== commentIdToDelete));
+        setComments((prev) =>
+          prev.filter((comment) => comment.id !== commentIdToDelete)
+        );
         setShowModal(false);
       } else {
         console.log(data.message);
@@ -87,14 +107,10 @@ export default function DashComments() {
                     {new Date(comment.updatedAt).toLocaleDateString()}
                   </Table.Cell>
 
-                  <Table.Cell>
-                    {comment.content}
-                  </Table.Cell>
+                  <Table.Cell>{comment.content}</Table.Cell>
                   <Table.Cell>{comment.Numberoflikes}</Table.Cell>
                   <Table.Cell>{comment.postId}</Table.Cell>
-                  <Table.Cell>
-                    {comment.userId}
-                  </Table.Cell>
+                  <Table.Cell>{comment.userId}</Table.Cell>
 
                   <Table.Cell>
                     <button
