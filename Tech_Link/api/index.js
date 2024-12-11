@@ -18,7 +18,13 @@ const prisma = new PrismaClient();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    //replace it with deployed frontend url
+    origin: "https://tech-insights-frontend-nit.onrender.com",
+    credentials: true,
+  })
+);
 
 app.get("/health", (req, res) => {
   return res.json("OK");
