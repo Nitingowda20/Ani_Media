@@ -17,6 +17,8 @@ import Search from "./pages/Search";
 import QuizzesPage from "./components/QuizzesPage";
 import CodeEditor from "./components/Code-Compiler/CodeEditor";
 import { Box } from "@chakra-ui/react";
+import TermsConditionsPage from "./pages/TermsConditionsPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 
 const App = () => {
   const location = useLocation();
@@ -33,13 +35,19 @@ const App = () => {
         <Route path="/sign-in" element={<SignInPage />}></Route>
         <Route path="/sign-out" element={<SignOutPage />}></Route>
         <Route path="/about" element={<AboutPage />}></Route>
+        <Route
+          path="/terms-and-condition"
+          element={<TermsConditionsPage />}
+        ></Route>
+        <Route
+          path="/PrivacyPolicyPage"
+          element={<PrivacyPolicyPage />}
+        ></Route>
         <Route path="/search" element={<Search />}></Route>
-
         {/* private routes */}
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />}></Route>
         </Route>
-
         {/* CodeEditor route */}
         <Route
           path="/editor"
@@ -49,13 +57,11 @@ const App = () => {
             </Box>
           }
         />
-
         {/* nested routes */}
         <Route>
           <Route path="/quizz" element={<Projects />} />
           <Route path="/quizzes/:topicId" element={<QuizzesPage />} />
         </Route>
-
         {/* post management routes */}
         <Route path="/create-post" element={<CreatePost />}></Route>
         <Route path="/update-post/:postId" element={<UpdatePost />}></Route>
