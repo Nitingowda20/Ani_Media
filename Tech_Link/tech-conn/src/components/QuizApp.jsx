@@ -7,7 +7,7 @@ function QuizApp() {
 
   useEffect(() => {
     const fetchTopics = async () => {
-      const response = await fetch("/api/topics"); // Adjust the endpoint if needed
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/topics`); // Adjust the endpoint if needed
       const data = await response.json();
       setTopics(data);
     };
@@ -15,7 +15,7 @@ function QuizApp() {
   }, []);
 
   const handleTopicSelect = async (topicId) => {
-    const response = await fetch(`/api/quiz/getquizzes/${topicId}`);
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/quiz/getquizzes/${topicId}`);
     if (!response.ok) {
       console.error("Failed to fetch quizzes for topic", topicId);
       return;

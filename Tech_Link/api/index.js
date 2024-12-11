@@ -9,7 +9,7 @@ import savelist from "./routes/savelist.js";
 import likeRoute from "./routes/likeRoute.js";
 import quizRoute from "./routes/quizRoute.js";
 import topicRoute from "./routes/topicRoute.js";
-
+import cors from 'cors'
 
 
 const app = express();
@@ -19,6 +19,11 @@ const prisma = new PrismaClient();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors())
+
+app.get('/health', (req, res)=>{
+  return res.json("OK")
+})
 
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);

@@ -11,7 +11,7 @@ export default function AdminQuizCreator() {
   useEffect(() => {
     const fetchTopics = async () => {
       try {
-        const response = await fetch("/api/topic/topics"); // Endpoint to fetch topics
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/topic/topics`); // Endpoint to fetch topics
         const data = await response.json();
         setTopics(data); // Set topics in state
       } catch (error) {
@@ -31,7 +31,7 @@ export default function AdminQuizCreator() {
     const quizData = { question, options, correctAnswer, topicId };
     console.log("Submitting Quiz Data:", quizData);
     try {
-      const res = await fetch(`/api/quiz/createquiz`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/quiz/createquiz`, {
         method: "POST",
         headers: {
           "content-type": "application/json",

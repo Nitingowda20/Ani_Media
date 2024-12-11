@@ -9,7 +9,7 @@ const Project = () => {
   useEffect(() => {
     const fetchTopics = async () => {
       try {
-        const response = await fetch("/api/topic/topics"); // Replace with your actual API endpoint
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/topic/topics`); // Replace with your actual API endpoint
         const data = await response.json();
         setTopics(data);
       } catch (error) {

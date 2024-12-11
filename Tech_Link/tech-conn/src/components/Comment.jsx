@@ -14,7 +14,7 @@ export default function Comment({ comment, onLike , onEdit , onDelete }) {
     const getUser = async () => {
       if (!comment.userId) return; // Avoid fetching if userId is not defined
       try {
-        const res = await fetch(`/api/user/${comment.userId}`);
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/${comment.userId}`);
         if (res.ok) {
           const data = await res.json();
           setUser(data);
@@ -37,10 +37,11 @@ export default function Comment({ comment, onLike , onEdit , onDelete }) {
 
   const handleSave = async()=>{
     try {
-      const res = await fetch (`/api/comment/editcomment/${comment.id}`,{
+      const res = await fetch (`${import.meta.env.VITE_API_URL}/api/comment/editcomment/${comment.id}`,{
         method:"PUT",
         headers:{
-          'content-type' : 'application/json'
+          'content-type' : 'application/json',
+          Authorization: `Bearer ${currentUser.token}`
         },
         body:JSON.stringify({
           content:editedContent

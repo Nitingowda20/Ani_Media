@@ -19,7 +19,7 @@ export default function CommentSection({ postId }) {
   useEffect(() => {
     const getComments = async () => {
       try {
-        const res = await fetch(`/api/comment/getpostcomments/${postId}`);
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment/getpostcomments/${postId}`);
         if (res.ok) {
           const data = await res.json();
           setComments(data);
@@ -44,10 +44,11 @@ export default function CommentSection({ postId }) {
       return;
     }
     try {
-      const res = await fetch(`/api/comment/create`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment/create`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
+          Authorization: `Bearer ${currentUser.token}`
         },
         body: JSON.stringify({
           postId: postId,
@@ -76,7 +77,7 @@ export default function CommentSection({ postId }) {
         return;
       }
 
-      const res = await fetch(`/api/comment/likecomment/${commentId}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment/likecomment/${commentId}`, {
         method: "PUT",
       });
       if (res.ok) {
@@ -114,7 +115,7 @@ export default function CommentSection({ postId }) {
         Navigate("/sign-in");
         return;
       }
-      const res = await fetch(`/api/comment/deletecomment/${commentId}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment/deletecomment/${commentId}`, {
         method: "DELETE",
       });
       if (res.ok) {

@@ -113,7 +113,7 @@ export default function DashProfile() {
       dispatch(updateStart());
       // console.log("Form",formData)
       const userId = parseInt(currentUser.id, 10);
-      const res = await fetch(`/api/user/update/${userId}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/update/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -139,7 +139,7 @@ export default function DashProfile() {
     try {
       dispatch(deleteUserStart());
       const userId = parseInt(currentUser.id, 10);
-      const res = await fetch(`/api/user/delete/${userId}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/delete/${userId}`, {
         method: "DELETE",
       });
       const data = await res.json();
@@ -158,7 +158,7 @@ export default function DashProfile() {
   //Signout
   const handleSignOut = async () => {
     try {
-      const res = await fetch(`/api/user/signout`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/signout`, {
         method: "POST",
       });
 
