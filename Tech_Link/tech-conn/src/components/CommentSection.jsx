@@ -48,6 +48,7 @@ export default function CommentSection({ postId }) {
         method: "POST",
         headers: {
           "Content-type": "application/json",
+          Authorization: `Bearer ${currentUser.token}`
         },
         body: JSON.stringify({
           postId: postId,
