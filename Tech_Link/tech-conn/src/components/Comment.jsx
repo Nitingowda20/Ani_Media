@@ -41,6 +41,7 @@ export default function Comment({ comment, onLike , onEdit , onDelete }) {
         method:"PUT",
         headers:{
           'content-type' : 'application/json'
+          Authorization: `Bearer ${currentUser.token}`
         },
         body:JSON.stringify({
           content:editedContent
