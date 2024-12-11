@@ -48,7 +48,6 @@ export const getpost = async (req, res, next) => {
     // const sortDirection = req.query.order === "asc" ? "asc" : "desc";
     const sortDirection = req.query.sort === "asc" ? "asc" : "desc";
 
-
     const whereClause = {
       ...(req.query.userId && { userId: parseInt(req.query.userId) }),
       ...(req.query.category && { category: req.query.category }),
@@ -124,24 +123,27 @@ export const updatepost = async (req, res, next) => {
   const userIdFromParams = parseInt(req.params.userId, 10); // Convert ID to integer
   const userIdFromToken = parseInt(req.user.id, 10); // Ensure user.id is an integer
 
+
   if (!req.user.isAdmin || userIdFromParams !== userIdFromToken) {
-    return next(errorHandler(403, "You are not allowed to delete this post"));
+    return next(errorHandler(403, "You are not allowed to update this post"));
   }
   const { postId } = req.params;
-  
+
   try {
     const updatingPost = await prisma.post.update({
       where: {
         id: Number(postId),
       },
       data: {
-        title: req.body.title,  
-        content: req.body.content,  
-        category: req.body.category,  
-        image: req.body.image,  
+        title: req.body.title,
+        content: req.body.content,
+        category: req.body.category,
+        image: req.body.image,
       },
     });
-    res.status(200).json({message: "Post updated successfully",post :updatingPost})
+    res
+      .status(200)
+      .json({ message: "Post updated successfully", post: updatingPost });
   } catch (error) {
     next(error);
   }

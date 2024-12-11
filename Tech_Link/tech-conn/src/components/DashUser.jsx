@@ -2,11 +2,11 @@ import { Button, Modal, Table, TableCell } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useSelector } from "react-redux";
-import {FaCheck , FaTimes} from 'react-icons/fa'
+import { FaCheck, FaTimes } from "react-icons/fa";
 export default function DashUser() {
   const { currentUser } = useSelector((state) => state.user);
   const [users, setUsers] = useState([]);
-  const [showMore, setShowMore] = useState(true);   
+  const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState("");
 
@@ -39,7 +39,9 @@ export default function DashUser() {
     const startIndex = users.length;
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/user/getuser?startIndex=${startIndex}`
+        `${
+          import.meta.env.VITE_API_URL
+        }/api/user/getuser?startIndex=${startIndex}`
       );
       const data = await res.json();
       if (res.ok) {
@@ -56,21 +58,22 @@ export default function DashUser() {
   const handleDeleteUser = async () => {
     setShowModal(false);
     try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/delete/${userIdToDelete}`,
-            {
-                method : "DELETE"
-            }
-        )
-        const data = await res.json()
-        if(res.ok){
-            setUsers((prev) => prev.filter((user) => user.id !== userIdToDelete) )
-            setShowModal(false)
-        }else{
-            console.log(data.message);
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/user/delete/${userIdToDelete}`,
+        {
+          method: "DELETE",
+          credentials: "include",
         }
+      );
+      const data = await res.json();
+      if (res.ok) {
+        setUsers((prev) => prev.filter((user) => user.id !== userIdToDelete));
+        setShowModal(false);
+      } else {
+        console.log(data.message);
+      }
     } catch (error) {
-        console.log(error.message);
-        
+      console.log(error.message);
     }
   };
 

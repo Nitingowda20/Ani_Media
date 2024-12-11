@@ -102,6 +102,7 @@ export default function UpdatePost() {
             category: formData.category,
             image: formData.image,
           }),
+          credentials : "include",
         }
       );
       const data = await res.json();

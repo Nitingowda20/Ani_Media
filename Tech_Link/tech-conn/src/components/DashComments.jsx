@@ -58,6 +58,7 @@ export default function DashComments() {
   };
 
   const handleDeleteComment = async () => {
+    console.log(commentIdToDelete);
     setShowModal(false);
     try {
       const res = await fetch(
@@ -115,8 +116,9 @@ export default function DashComments() {
                   <Table.Cell>
                     <button
                       onClick={() => {
+                        // console.log("hey th", comments);
                         setShowModal(true);
-                        setCommentIdToDelete(comments.id);
+                        setCommentIdToDelete(comment.id);
                       }}
                       className="text-red-600 hover:underline cursor-pointer"
                     >

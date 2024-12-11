@@ -1,76 +1,86 @@
-import { Button, Modal, Table, TableCell } from 'flowbite-react';
-import React, { useEffect, useState } from 'react'
-import { HiOutlineExclamationCircle } from 'react-icons/hi';
+import { Button, Modal, Table, TableCell } from "flowbite-react";
+import React, { useEffect, useState } from "react";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useSelector } from "react-redux";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export default function DashPost() {
-  const {currentUser} = useSelector(state=> state.user)
-  const [ userPost , setUserPost] = useState([])
-  const [showMore , setShowMore] = useState(true)
+  const { currentUser } = useSelector((state) => state.user);
+  const [userPost, setUserPost] = useState([]);
+  const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [postIdToDelete , setPostIdToDelete] = useState('')
+  const [postIdToDelete, setPostIdToDelete] = useState("");
 
   // console.log(userPost);
-  
-  useEffect(()=>{
-    const fetchpost =async()=>{
+
+  useEffect(() => {
+    const fetchpost = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/getpost?userId=${currentUser.id}`)
-        const data = await res.json()
-        if(res.ok){
-            setUserPost(data.posts)
-            if(data.posts.length < 9){
-              setShowMore(false)
-            }
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/post/getpost?userId=${
+            currentUser.id
+          }`
+        );
+        const data = await res.json();
+        if (res.ok) {
+          setUserPost(data.posts);
+          if (data.posts.length < 9) {
+            setShowMore(false);
+          }
         }
       } catch (error) {
         console.log(data.error);
-        
       }
+    };
+    if (currentUser.isAdmin) {
+      fetchpost();
     }
-    if(currentUser.isAdmin){
-      fetchpost()
-    }
-  },[currentUser.id , currentUser.isAdmin])
+  }, [currentUser.id, currentUser.isAdmin]);
 
-  const handleShowMore =async()=>{
+  const handleShowMore = async () => {
     const startIndex = userPost.length;
     try {
-       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/getpost?userId=${currentUser.id}&startIndex=${startIndex}`);
-       const data = await res.json();
-       if (res.ok) {
-         setUserPost((prev)=>[...prev , ...data.posts]);
-         if (data.posts.length < 9) {
-           setShowMore(false);
-         }
-       }
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/post/getpost?userId=${
+          currentUser.id
+        }&startIndex=${startIndex}`
+      );
+      const data = await res.json();
+      if (res.ok) {
+        setUserPost((prev) => [...prev, ...data.posts]);
+        if (data.posts.length < 9) {
+          setShowMore(false);
+        }
+      }
     } catch (error) {
       console.log(error);
-      
     }
+  };
 
-  }
-
-  const handleDeletePost =async()=>{
-    setShowModal(false)
+  const handleDeletePost = async () => {
+    setShowModal(false);
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/deletepost/${postIdToDelete}/${currentUser.id}`,{
-        method:"DELETE"
-      })
-      const data = res.json()
-      if(!res.ok){
+      const res = await fetch(
+        `${
+          import.meta.env.VITE_API_URL
+        }/api/post/deletepost/${postIdToDelete}/${currentUser.id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+      const data = res.json();
+      if (!res.ok) {
         console.log(data.message);
+      } else {
+        setUserPost((prev) =>
+          prev.filter((posts) => posts.id !== postIdToDelete)
+        );
       }
-      else{
-        setUserPost((prev) => prev.filter((posts) =>posts.id !== postIdToDelete))
-      }
-
     } catch (error) {
       console.log(error.message);
-      
     }
-  }
+  };
   return (
     <div className="w-full table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       {currentUser.isAdmin && userPost.length > 0 ? (
