@@ -40,7 +40,7 @@ export default function Comment({ comment, onLike , onEdit , onDelete }) {
       const res = await fetch (`${import.meta.env.VITE_API_URL}/api/comment/editcomment/${comment.id}`,{
         method:"PUT",
         headers:{
-          'content-type' : 'application/json'
+          'content-type' : 'application/json',
           Authorization: `Bearer ${currentUser.token}`
         },
         body:JSON.stringify({
