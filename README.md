@@ -30,6 +30,7 @@ This blog platform provides several powerful and user-friendly features to enhan
 - **Bookmark Post**: Users can bookmark/save a post and which can be accesed in the profile section.
 - **Search Functionality**: Easily search through blog posts using keywords.
 - **Responsive Design**: Optimized for mobile and desktop, providing a seamless user experience across devices.
+- **Code-Editor**: Free for all code-editor.
 
 ## Technologies Covered
 
@@ -48,3 +49,6 @@ For any inquiries, topic requests, or collaboration opportunities, feel free to 
 - Email: Nitingowda3448@gmail.com
 <!-- - Twitter: [@TechInsights](https://twitter.com/techinsights) -->
 - GitHub: [Tech Insights](https://github.com/Nitingowda20)
+
+## WEb Link
+https://tech-insights-frontend-nit.onrender.com
