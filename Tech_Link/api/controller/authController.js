@@ -76,14 +76,18 @@ export const signin = async (req, res, next) => {
     }
 
     // Generate a JWT token
-    const token = jwt.sign({ id: validUser.id , isAdmin: validUser.isAdmin}, process.env.JWT_SECRET);
+    const token = jwt.sign(
+      { id: validUser.id, isAdmin: validUser.isAdmin },
+      process.env.JWT_SECRET
+    );
 
     // Destructure and exclude the password field from the response
     const { password: pass, ...userWithoutPassword } = validUser;
     res
       .status(200)
       .cookie("access_token", token, {
-        httpOnly: true,
+        secure: "true",
+        // sameSite : "none"
       })
       .json(userWithoutPassword);
   } catch (error) {
@@ -91,7 +95,6 @@ export const signin = async (req, res, next) => {
     return next(errorHandler(500, "An error occurred while signing in"));
   }
 };
-
 
 //Google
 export const google = async (req, res, next) => {
